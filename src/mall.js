@@ -1,0 +1,70 @@
+import{createMallProps}from'./mall-props.js';
+import{planLiftWalk}from'./lift.js';
+import{navigateEnemy,clearRoute}from'./navigation.js';
+// Five linked floors; all combat and companion state remains renderer-independent.
+// Every solid prop is rendered from this exact footprint. Flat paint/litter never blocks.
+const mallProp=(id,kind,x,y,w,h,extra={})=>({id,kind,x,y,w,h,...extra});
+const perimeter=()=>[mallProp('north','wall',20,20,1160,14),mallProp('south','wall',20,726,1160,14,{low:true}),mallProp('west','wall',20,34,14,692),mallProp('east','wall',1166,34,14,692)];
+const arrivalBay=()=>[mallProp('arrival-top','wall',50,298,130,12),mallProp('arrival-bottom','wall',50,450,130,12),mallProp('arrival-back','wall',50,310,12,140)];
+const liftBay=()=>[mallProp('lift-top','wall',1070,298,96,12),mallProp('lift-bottom','wall',1070,450,96,12),mallProp('lift-back','lift',1154,310,12,140)];
+const storefronts=(quiet=false)=>[
+ mallProp('pharmacy','shop',90,50,235,180,{title:'MERIDIAN PHARMACY',color:'#5c8177'}),
+ mallProp('fashion','shop',365,50,235,180,{title:quiet?'AFTER HOURS':'LAST SEASON',color:'#a17870'}),
+ mallProp('electronics','shop',640,50,235,180,{title:'VOLT / ELECTRONICS',color:'#6c8098'}),
+ mallProp('cafe','shop',90,570,235,140,{title:'NIGHT OWL COFFEE',color:'#a68d63',south:true}),
+ mallProp('sports','shop',365,570,235,140,{title:'STRIDE / SPORTS',color:'#71826b',south:true}),
+ mallProp('food','shop',640,590,235,120,{title:'FOOD COURT',color:'#9a7861',south:true})];
+// Open entrances face the concourse. Walls, displays and counters share render footprints.
+function shopSolids(quiet){return storefronts(quiet).flatMap(s=>{
+ const front=s.south?s.y:s.y+s.h-8,back=s.south?s.y+s.h-10:s.y;
+ return [mallProp(s.id+'-back','wall',s.x,back,s.w,10),
+ mallProp(s.id+'-left','wall',s.x,s.y,10,s.h),mallProp(s.id+'-right','wall',s.x+s.w-10,s.y,10,s.h),
+ mallProp(s.id+'-window-a','glass',s.x+10,front,48,8,{material:'glass',hp:22}),
+ mallProp(s.id+'-window-b','glass',s.x+s.w-58,front,48,8,{material:'glass',hp:22}),
+ mallProp(s.id+'-shelf','shelf',s.x+18,s.south?s.y+s.h-34:s.y+20,s.w-36,20,{theme:s.id,material:'wood'}),
+ mallProp(s.id+'-counter','counter',s.x+18,s.south?s.y+45:s.y+s.h-68,48,24,{material:'wood'})];
+ });}
+const concourseClutter=()=>[
+ mallProp('abandoned-cart','stall',530,490,70,40,{material:'wood'}),
+ mallProp('fallen-sofa','sofa',760,485,92,36,{material:'fabric'}),
+ mallProp('cafe-table','table',240,530,44,25,{material:'wood'}),
+ mallProp('service-trolley','stall',800,245,48,32,{material:'metal'})];
+const securityRoom=()=>[
+ mallProp('security-back','wall',940,65,210,12),mallProp('security-west','wall',940,77,12,113),
+ mallProp('security-door','door',940,190,12,95),mallProp('security-jamb','wall',940,285,12,27),
+ mallProp('security-south','wall',952,300,198,12,{low:true}),mallProp('security-east','wall',1138,77,12,223),
+ mallProp('security-desk','desk',1020,90,90,36)];
+const gunStore=()=>[
+ mallProp('arms-west','wall',940,510,12,202),mallProp('arms-east','wall',1138,510,12,202),mallProp('arms-back','wall',952,700,186,12),
+ mallProp('arms-front-left','wall',952,510,38,12,{low:true}),mallProp('arms-front-right','wall',1080,510,58,12,{low:true}),
+ mallProp('arms-rack-a','rack',962,558,18,100),mallProp('arms-lift-top','wall',1040,570,98,10),mallProp('arms-lift-bottom','wall',1040,658,98,10),mallProp('arms-counter','counter',1000,663,100,25)];
+export function mallGates(index){return index===2||index===4?[]:(index===0?[430,800]:[345,900]).map((x,i)=>mallProp('gate-'+i,'gate',x,34,12,692,{parking:index===0}));}
+export function mallLayout(index){
+ const bounds=[...perimeter(),...arrivalBay()];
+ if(index===0)return [...bounds,...liftBay(),...mallGates(index),...[[235,150],[520,150],[850,150],[190,545],[550,545],[870,545]].map(([x,y],i)=>mallProp('car-'+i,'car',x,y,166,74,{color:['#697b79','#6b4d45','#8c8b79'][i%3]})),mallProp('paystation','paystation',90,110,40,35),mallProp('entry-planter','planter',1000,80,75,64)];
+ if(index===4)return [...bounds,mallProp('vent-a','vent',290,170,150,80),mallProp('vent-b','vent',700,540,170,85),mallProp('roof-access','roofaccess',70,70,150,105)];
+ const furniture=index===2?[mallProp('bench-a','bench',270,390,105,27),mallProp('planter-a','planter',900,470,68,68)]:[mallProp('kiosk','kiosk',390,340,135,75,{title:index===3?'MERIDIAN DIRECTORY':'PHONE REPAIR'}),mallProp('bench-a','bench',180,460,115,27),mallProp('bench-b','bench',730,300,115,27),mallProp('planter-a','planter',620,470,68,68)];
+ return [...bounds,...mallGates(index),...shopSolids(index===2),...concourseClutter(),...furniture,...(index===1?[...securityRoom(),...gunStore()]:liftBay())];
+}
+const mallSectionNames=[['PARKING ENTRANCE','PARKING AISLES','MALL SERVICE LIFT'],['WEST CONCOURSE','RETAIL GALLERIES','SECURITY / KESSLER ARMS'],['THE HOST'],['UPPER WEST WING','FOOD COURT','ROOFTOP ACCESS']];
+const names=['PARKING / SERVICE LIFT','LEVEL 2 / RETAIL CONCOURSE','LEVEL 3 / THE HOST','LEVEL 4 / UPPER GALLERIES','ROOF / EXTRACTION'];
+export function mallFloor(index){return {id:'mall-'+index,operationId:'mall',mall:true,floorIndex:index,name:'DEAD MALL',location:names[index],mode:'mall',shops:index>0&&index<4?storefronts(index===2):[],brief:'Five floors. One extraction. Keep your gear and health between floors.',start:{x:110,y:380},targets:[{x:index===1?900:980,y:index===1?240:380}],extract:{x:1090,y:index===1?620:380},boss:{x:720,y:350},holdTime:0,cover:mallLayout(index),color:index===0?'#555d59':'#5d5950',accent:'#d0b880',rewardSlots:['shotgun','dualPistols','armor'],rewardLabel:'Sidearms & survival gear'};}
+export function enterMallFloor(g,index,makeEnemy){g.mallFloor=index;g.mission=mallFloor(index);g.cover=[...g.mission.cover];g.mallProps=createMallProps(index);g.brokenProps=[];g.fixtureHealth={};g.propSerial=0;g.p.x=110;g.p.y=380;g.p.vx=g.p.vy=0;g.enemies=[];g.shots=[];g.hostileShots=[];g.reload=0;g.swap=0;g.pump=0;g.dodge=0;g.fx=[];g.impacts=[];g.surfaceMarks=[];g.bodies=[];g.bloodStains=[];g.loot.forEach(d=>g.bag.push(d.item));g.loot=[];g.lockTarget=null;g.navigation?.clear();g.mallSpawned=0;g.mallClock=0;g.mallRescued=false;g.mallSector=0;g.mallAwaitingEntry=false;g.interact=0;g.phase='mall';g.bossSpawned=false;g.bossDefeated=false;g.mallWaveClock=0;g.companion=null;if(index===2){g.p.x=580;g.p.y=350;g.companion={r:16,x:720,y:350,face:Math.PI,hp:100,vx:0,vy:0};g.storyBeat='mall-transform';}else if(index!==4){g.mallSector=0;for(let sector=0;sector<3;sector++)placeMallSection(g,sector,makeEnemy);if(index===1)g.enemies.push({...makeEnemy('brute',1060,620,g.tier,.44),dormant:true,rescueGuard:true},{...makeEnemy('runner',1090,550,g.tier,.6),dormant:true,rescueGuard:true});spawnMallSection(g,makeEnemy); }if(index===4)g.events.push('objective');}
+
+function placeMallSection(g,sector,makeEnemy){const floor=g.mallFloor,gates=mallGates(floor),left=sector===0?60:gates[sector-1].x+35,right=sector<2?gates[sector].x-30:1130,entry={x:sector===0?110:gates[sector-1].x+28,y:380},count=(floor===0?[3,4,4]:floor===1?[5,13,6]:[4,8,5])[sector],points=[];
+ for(let y=280;y<=535;y+=48)for(let x=left+35;x<right-15;x+=48)if(!g.cover.some(o=>x+24>o.x&&x-24<o.x+o.w&&y+24>o.y&&y-24<o.y+o.h)&&Math.hypot(x-entry.x,y-entry.y)>155)points.push({x,y});
+ for(let i=0;i<count;i++){const point=points[Math.floor(i*points.length/count)];if(point)g.enemies.push({...makeEnemy(i%7===6?'spitter':i%3===1?'runner':'walker',point.x,point.y,g.tier,(i+sector*10)/40),dormant:true,mallSection:sector,face:Math.PI,vx:0,vy:0});}}
+function spawnMallSection(g,makeEnemy){for(const enemy of g.enemies)if(enemy.mallSection===g.mallSector){enemy.dormant=false;enemy.wake=.6;};g.mallAwaitingEntry=false;
+}
+function advanceMallSection(g,makeEnemy){if(g.mallFloor===2||g.mallFloor===4||g.mallRescued)return;const gates=mallGates(g.mallFloor);if(g.mallAwaitingEntry){const crossed=gates[g.mallSector-1];if(g.p.x>crossed.x+28)spawnMallSection(g,makeEnemy);return;}if(g.mallSector<2&&!g.enemies.some(e=>e.hp>0&&!e.dormant)){const gate=gates[g.mallSector];g.mallSector++;g.mallAwaitingEntry=true;g.cover=g.cover.filter(o=>o.id!==gate.id);g.navigation?.clear();g.events.push('sector_clear');}}
+
+export function finishMallFilm(g,mode,makeEnemy){if(mode==='mall-lift-out'){const next=g.mallNextFloor;enterMallFloor(g,next,makeEnemy);g.mallArrivalStory=g.storyBeat;g.storyBeat=null;g.p.x=110;g.p.y=380;g.mallLiftPlan={walk:2.1,path:Array.from({length:21},(_,i)=>({x:110+i*5,y:380}))};return;}if(mode==='mall-lift-in'){g.p.x=210;g.p.y=380;g.p.face=0;g.p.vx=g.p.vy=0;g.storyBeat=g.mallArrivalStory||null;g.mallArrivalStory=null;g.mallLiftPlan=null;return;}if(mode==='mall-rescue'){g.mallRescued=true;g.mallDoorOpenedAt=g.mallClock;g.cover=g.cover.filter(o=>o.id!=='security-door');g.navigation?.clear();g.optionalDone=true;g.companion={r:16,x:980,y:240,face:Math.PI,hp:100,vx:0,vy:0,cool:0};for(const e of g.enemies)if(e.rescueGuard){e.dormant=false;e.wake=.6;};}if(mode==='mall-transform'){g.companion=null;g.enemies=[makeEnemy('boss',720,350,g.tier,.8)];g.bossSpawned=true;g.events.push('boss_spawn');}}
+export function requestMallLift(g,nextFloor,move){if(g.mallLiftPlan)return;const target={x:g.mallFloor===1?1090:1120,y:g.mission.extract.y},plan=planLiftWalk(g,target,move);if(!plan)return;g.mallLiftPlan=plan;g.mallNextFloor=nextFloor;g.storyBeat='mall-lift-out';}
+export function updateMall(g,a,dt,makeEnemy,move){if(g.mallFloor===undefined)enterMallFloor(g,0,makeEnemy);if(g.storyBeat)return;g.mallClock+=dt;if(g.p.hp<=0)return;advanceMallSection(g,makeEnemy);const floor=g.mallFloor,alive=g.enemies.some(e=>e.hp>0&&!e.dormant),near=p=>Math.hypot(g.p.x-p.x,g.p.y-p.y)<72;if(floor===2&&g.bossDefeated&&!alive&&g.time>=(g.bossDeathUntil||0)){requestMallLift(g,3,move);return;}
+ if(g.companion&&floor===1){const c=g.companion,dist=Math.hypot(g.p.x-c.x,g.p.y-c.y);c.vx=c.vy=0;if(dist>85){const path=navigateEnemy(g,c);c.vx=path.x*160;c.vy=path.y*160;move(c,c.vx*dt,c.vy*dt,g.cover);}c.cool=Math.max(0,(c.cool||0)-dt);const target=g.enemies.find(e=>e.hp>0&&!e.dormant&&Math.hypot(e.x-c.x,e.y-c.y)<300&&clearRoute(c,e,2,g.cover));c.face=target?Math.atan2(target.y-c.y,target.x-c.x):g.p.face;if(target&&!c.cool){c.cool=.65;const angle=c.face;g.shots.push({x:c.x+Math.cos(angle)*25,y:c.y+Math.sin(angle)*25,vx:Math.cos(angle)*1000,vy:Math.sin(angle)*1000,life:.8,weapon:'pistol',hit:new Set(),pierce:1});g.events.push('companion_shot');}}
+ if(floor===1&&g.mallSector===2&&!g.mallAwaitingEntry&&!g.mallRescued&&!alive&&near(g.mission.targets[0])&&a.interact){g.interact+=dt;if(g.interact>=1){g.storyBeat='mall-rescue';g.interact=0;}}else g.interact=0;
+ if(floor===4){if(g.mallClock<60){g.mallWaveClock-=dt;if(g.mallWaveClock<=0&&g.enemies.length<18){g.mallWaveClock=2;const side=g.mallSpawned++%2;g.enemies.push(makeEnemy(g.mallSpawned%4===0?'brute':'runner',side?1120:70,250+(g.mallSpawned*83)%390,g.tier,g.random()));}}else if(near(g.mission.extract)){g.status='won';return;}}
+ else if(!alive&&!g.mallAwaitingEntry&&(floor===2||g.mallSector===2)&&(floor!==1||g.mallRescued)&&(floor!==2||g.bossDefeated)&&near(g.mission.extract)&&a.interact){g.mallLift=(g.mallLift||0)+dt;if(g.mallLift>=1){g.mallLift=0;requestMallLift(g,floor+1,move);}}else g.mallLift=0;
+}
+export function mallHint(g){if(g.mallAwaitingEntry){const gate=mallGates(g.mallFloor)[g.mallSector-1];return{target:{x:gate.x+80,y:380},label:'FORWARD',color:'#d0c08a'};}if(g.mallFloor===1&&!g.mallRescued&&!g.enemies.some(e=>e.hp>0&&!e.dormant))return {target:g.mission.targets[0],label:'SURVIVOR',color:'#d0c08a'};const enemy=g.enemies.find(e=>e.hp>0&&!e.dormant);return{target:enemy||g.mission.extract,label:enemy?'INFECTED':g.mallFloor===4?'HELICOPTER':'LIFT',color:'#d0c08a'};}
+export function mallDirective(g,touch=false){const key=touch?'INTERACT':'E';if(g.mallFloor===4)return g.mallClock<60?'Hold the roof · helicopter in '+Math.ceil(60-g.mallClock)+'s':'Helicopter arrived · reach the landing zone';if(g.mallFloor===2)return g.bossDefeated?'Host eliminated · hold '+key+' at the lift':'Your survivor is the host · dodge its attacks';if(g.mallAwaitingEntry)return 'Section clear · push through the opened shutter';if(g.enemies.some(e=>e.hp>0&&!e.dormant))return (mallSectionNames[g.mallFloor]?.[g.mallSector??0]||'MERIDIAN')+' · Section '+((g.mallSector??0)+1)+' / 3 · Floor '+(g.mallFloor+1)+' / 5 · clear '+g.enemies.filter(e=>e.hp>0&&!e.dormant).length+' infected';if(g.mallFloor===1&&!g.mallRescued)return 'Survivor located · hold '+key+' at the locked room';return g.mallFloor===1?'Reach the gun store · hold '+key+' at its service lift':'Area clear · hold '+key+' at the lift';}
