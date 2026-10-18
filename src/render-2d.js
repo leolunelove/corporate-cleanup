@@ -1,5 +1,5 @@
-import{cover}from'./game.js?v=a540b6d06760';
-import{damp,reloadPose}from'./motion.js?v=a540b6d06760';
+import{cover}from'./game.js?v=2d2b610cad2b';
+import{damp,reloadPose}from'./motion.js?v=2d2b610cad2b';
 export const camera={x:600,y:350,zoom:1.5,shake:0};
 export function resetCamera(){camera.x=600;camera.y=350;camera.zoom=1.5;camera.shake=0;}
 export function updateCamera(g,cursor,dt,ads){camera.zoom=damp(camera.zoom,ads?1.64:1.5,8,dt);const lead=ads?.23:.08;let x=g.p.x+(cursor.x-600)/camera.zoom*lead+(g.p.vx||0)*.065,y=g.p.y+(cursor.y-380)/camera.zoom*lead+(g.p.vy||0)*.065;const hw=600/camera.zoom,hh=380/camera.zoom;camera.x=damp(camera.x,Math.max(hw,Math.min(1200-hw,x)),8,dt);camera.y=damp(camera.y,Math.max(hh,Math.min(760-hh,y)),8,dt);camera.shake=damp(camera.shake,0,17,dt);}

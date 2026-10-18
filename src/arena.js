@@ -1,5 +1,5 @@
-import {navigateEnemy,clearRoute} from './navigation.js?v=a540b6d06760';
-import {weapons} from './weapons.js?v=a540b6d06760';
+import {navigateEnemy,clearRoute} from './navigation.js?v=2d2b610cad2b';
+import {weapons} from './weapons.js?v=2d2b610cad2b';
 const arenaPerimeter=[{x:20,y:20,w:1160,h:14},{x:20,y:726,w:1160,h:14},{x:20,y:34,w:14,h:692},{x:1166,y:34,w:14,h:692}];
 const rect=(id,x,y,w,h,kind='cover')=>({id,x,y,w,h,kind});
 export const arenaModes={ffa:{name:'Free for all',limit:30,label:'30 eliminations'},tdm:{name:'Team deathmatch',limit:60,label:'60 team eliminations'},hill:{name:'Hardpoint',limit:150,label:'150 control points'}};

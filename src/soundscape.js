@@ -1,4 +1,4 @@
-import{createLicensedScore}from'./licensed-score.js?v=a540b6d06760';
+import{createLicensedScore}from'./licensed-score.js?v=2d2b610cad2b';
 // Cached original PCM effects and locally embedded licensed music; no simulation randomness.
 export function surfaceAt(id,x,y,mission){if(mission?.mall)return (mission.shops||[]).some(s=>((x-s.x-36)/31)**2+((y-(s.south?s.y-12:s.y+s.h+12))/9)**2<1)?'wet':'tile';if(id==='purge')return x<135||x>1060||y<210?'frost':'tile';if(id==='sabotage')return y>420&&y<530||x>1060?'grate':'concrete';return Math.hypot(x-420,y-340)<65||Math.hypot(x-880,y-280)<60?'wet':y>500&&y<560?'grate':'concrete';}
 // Presentation may supply screen-visible enemy references; the simulation never reads this set.
