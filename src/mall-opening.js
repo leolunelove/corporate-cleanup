@@ -1,4 +1,4 @@
-import{mallFloor}from'./mall.js?v=50198147105a';
+import{mallFloor}from'./mall.js?v=a540b6d06760';
 const openingEase=x=>{x=Math.max(0,Math.min(1,x));return x*x*x*(x*(x*6-15)+10);};
 // Heel contacts follow the distance-based gait, including the eased start/stop.
 const openingWalkCues=Array.from({length:6},(_,i)=>{const target=(i+1)*Math.PI/.19/100;let low=0,high=1;for(let n=0;n<24;n++){const mid=(low+high)/2;if(openingEase(mid)<target)low=mid;else high=mid;}return{at:34+(low+high)/2*3.3,kind:'film_step',volume:i%2?.13:.15,pan:i%2?.06:-.06};});
