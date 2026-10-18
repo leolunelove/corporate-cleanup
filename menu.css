@@ -63,3 +63,12 @@ html,body,main,#arena{overflow:clip!important}
 #overlay.menuShell.resultsFlow #resultsActions button{background:transparent!important;border:0!important;color:#b6c8d3!important;font:12px Arial!important;min-height:36px!important;padding:6px 12px!important}
 #overlay.menuShell.resultsFlow #start{order:3!important;align-self:flex-end!important;margin:0!important}
 @media(max-width:700px){.menuShell .resultRewards{grid-template-columns:1fr!important}.menuShell .resultReward{display:grid!important;grid-template-columns:1fr 90px!important;gap:4px 10px}.menuShell .resultReward .rewardSilhouette{grid-column:2;grid-row:1/4}.menuShell .resultReward .rewardEquip{grid-column:1/-1!important;grid-row:auto!important}.menuShell .resultEarnings strong{font-size:20px!important}}
+/* The debrief has no top tabs: give the rewards that space and keep desktop Equip buttons in view. */
+#overlay.menuShell.resultsFlow:not(.hidden){padding-top:86px!important;gap:8px!important}
+#overlay.menuShell.resultsFlow #menuBack{top:76px!important}
+.menuShell.resultsFlow .resultEarnings{padding:6px 0!important}.menuShell.resultsFlow .resultEarnings strong{font-size:22px!important;margin-top:3px}
+.menuShell.resultsFlow .resultProgress{margin:8px 0!important}.menuShell.resultsFlow .resultGearHeading{margin:9px 0 8px!important;font-size:20px!important}
+.menuShell.resultsFlow .resultReward{padding:12px!important}.menuShell.resultsFlow .rewardSilhouette{height:22px!important;margin:5px 0!important}.menuShell.resultsFlow .resultReward>strong{font-size:19px!important}
+#quarters .resultReward>p{font-size:10px!important;margin:4px 0 6px!important}.menuShell.resultsFlow .rewardBenefit{font-size:11px!important;margin-bottom:7px!important}
+#quarters .resultReward .rewardEquip{min-height:34px!important;padding:8px!important}#quarters .resultNote{margin:7px 0 2px!important}
+@media(max-width:700px){#overlay.menuShell.resultsFlow #menuBack{top:58px!important}.menuShell.resultsFlow .resultReward{min-height:150px!important}.menuShell.resultsFlow .rewardSilhouette{height:35px!important}}
