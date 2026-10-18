@@ -1,5 +1,5 @@
-import {navigateEnemy,clearRoute} from './navigation.js';
-import {weapons} from './weapons.js';
+import {navigateEnemy,clearRoute} from './navigation.js?v=13340cfdaa2c';
+import {weapons} from './weapons.js?v=13340cfdaa2c';
 const arenaSpawns=[{x:600,y:380},{x:180,y:180},{x:1020,y:180},{x:180,y:580},{x:1020,y:580}];
 export function arenaStandings(g){return [g.p,...g.enemies].map(e=>({id:e.arenaId,name:e.arenaName,kills:e.score||0,deaths:e.deaths||0})).sort((a,b)=>b.kills-a.kills||a.deaths-b.deaths||a.id.localeCompare(b.id));}
 export function initArena(g){g.arena=true;g.phase='arena';g.tier=1;g.quickPlay=false;g.firstMission=false;g.left=0;g.stats={maxHp:100,armor:0,hasArmor:true,damage:{pistol:1,rifle:1}};g.carried=['pistol','rifle'];g.weapon='rifle';g.loadout={pistol:weapons.pistol.capacity,rifle:weapons.rifle.capacity};g.ammo=g.loadout.rifle;g.arenaLimit=15;g.arenaDuration=180;g.arenaShots=[];g.mission={...g.mission,optional:null,targets:[{x:600,y:380}],advance:false,mode:'arena',brief:'OFFLINE FREE FOR ALL · First to 15 · Three-minute limit'};Object.assign(g.p,arenaSpawns[0],{hp:100,arenaId:'player',arenaName:'YOU',score:0,deaths:0,shield:2});g.enemies=Array.from({length:4},(_,i)=>({...arenaSpawns[i+1],type:'bot',arenaId:'bot-'+i,arenaName:['ROOK','ASH','MOTH','GHOST'][i],r:16,hp:100,maxHp:100,score:0,deaths:0,shield:2,seed:(i+1)*.17,weapon:'rifle',cool:.6+i*.2,ammo:12,reload:0,attack:0,face:0,navigation:new Map()}));}

@@ -1,5 +1,5 @@
-import {clearRoute,navigateEnemy} from './navigation.js';
-import {createGame,makeEnemy,blocked} from './game.js';
+import {clearRoute,navigateEnemy} from './navigation.js?v=13340cfdaa2c';
+import {createGame,makeEnemy,blocked} from './game.js?v=13340cfdaa2c';
 export const listenDuration=60;
 export function createListen(){const g=createGame(()=>.42,'rifle',{mission:'recovery',carried:['rifle','shotgun'],stats:{maxHp:600,armor:.3,damage:3},runId:'listen-demo'});g.listening=true;g.enemies=[];g.phase='listen';g.break=999;g.mission={...g.mission,optional:null};return {g,spawnAt:8,serial:0,done:false};}
 export function listenStage(t){return t<8?'EMPTY CORRIDORS':t<23?'FIRST CONTACT':t<40?'CONTAINMENT FAILURE':t<52?'FORECLOSER':t<60?'AFTERMATH':'END OF TRANSMISSION';}

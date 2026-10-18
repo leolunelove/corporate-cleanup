@@ -74,6 +74,8 @@ export function buildMallEnvironment(T,g,{box,cylinder,label,glow}){
  function sign(text,x,y,z,w,h,color='#e1d9bb'){const mesh=label(text,x,y,z,w,h,color);mesh.name=text;group.add(mesh);return mesh;}
  function furniture(o){const prop=new T.Group();prop.name='solid / '+o.id;prop.userData.footprint={x:o.x,y:o.y,w:o.w,h:o.h};group.add(prop);const x=o.x+o.w/2,z=o.y+o.h/2;
   if(o.kind==='gate'){const gate=new T.Group();gate.name=o.id+' / retractable security shutter';prop.add(gate);for(let height=4;height<=46;height+=6)box(gate,x,height,z,6,5,o.h,'#73857b');for(const pz of [o.y,o.y+o.h])box(gate,x,25,pz,14,50,8,'#a0a791');box(gate,x,50,z,17,8,o.h,'#4a615b');group.userData.mallGates??=[];group.userData.mallGates.push({id:o.id,mesh:gate,lift:0});}
+  else if(o.kind==='pillar'){clad(box(prop,x,51,z,o.w,102,o.h,'#777a71'),'plaster');box(prop,x,17,z,o.w+1,18,o.h+1,'#b4a065');for(let i=0;i<3;i++){const stripe=box(prop,x,12+i*6,z+o.h/2+.7,o.w+1,3,1,'#242d2c');stripe.rotation.z=-.18;}sign('P2',x,71,z+o.h/2+2,20,12,'#d2cfb5');}
+  else if(o.kind==='power'){clad(box(prop,x,24,z,o.w,48,o.h,'#58605a'),'metal');box(prop,x,24,z+o.h/2+1,o.w-5,36,2,'#293932');const indicator=glow(prop,x,36,z+o.h/2+3,8,3,2,'#a66e47');indicator.material=indicator.material.clone();group.userData.liftPowerIndicator=indicator;sign('LIFT / ISOLATOR',x,60,z,90,12,'#c3b99a');for(let y=14;y<29;y+=5)box(prop,x,y,z+o.h/2+3,15,1,1,'#889282');}
   else if(o.kind==='wall'||o.kind==='lift'||o.kind==='door'){
    const height=o.kind==='door'?44:o.low?18:o.id==='north'?74:36;
    const wall=box(prop,x,height/2,z,o.w,height,o.h,o.kind==='door'?'#628479':'#837f70');wall.name=o.id;if(o.kind==='wall'){clad(wall,'plaster');clad(box(prop,x,9,z,o.w+.05,18,o.h+.05,'#455b50'),'tile');box(prop,x,19,z,o.w+.2,1.2,o.h+.2,'#b49e74');box(prop,x,1.5,z,o.w+.4,3,o.h+.4,'#35423c');}
@@ -183,8 +185,28 @@ export function buildMallEnvironment(T,g,{box,cylinder,label,glow}){
  for(let i=0;i<160;i++){const root=new T.Group();root.visible=false;group.add(root);const mesh=box(root,0,0,0,1,1,1,'#8d8c75');mesh.material=mesh.material.clone();const back=box(root,0,0,0,1,1,1,'#636f60');back.visible=false;const round=cylinder(root,0,0,0,1,1,'#8d9c79');round.material=round.material.clone();round.visible=false;const trim=[];for(let j=0;j<4;j++)trim.push(box(root,0,0,0,1,1,1,'#454c40'));const handle=new T.Group();root.add(handle);box(handle,0,2,0,8,1.5,2,'#222d29');for(const dx of [-4,4])box(handle,dx,0,0,1.5,4,2,'#222d29');handle.visible=false;
  const actor={root,mesh,back,round,trim,handle,style(p){if(this.styleKind!==p.kind){mesh.material.needsUpdate=true;this.styleKind=p.kind;}handle.visible=p.kind==='case';handle.position.y=p.h/2+1.5;mesh.material.map=p.kind==='case'?surface('fabric').map:p.kind==='crate'?surface('cardboard').map:null;mesh.material.color.set(p.kind==='case'?'#81918b':p.kind==='crate'?'#dfcba2':p.color);if(p.kind==='case'||p.kind==='crate')for(let j=0;j<trim.length;j++){const t=trim[j];t.material=surface(p.kind==='case'?'metal':'cardboard');if(p.kind==='case'){t.scale.set(p.w-1,.6,.6);t.position.set(0,p.h/2-1,(j%2?1:-1)*(p.d/2-.8));t.visible=j<2;}else{t.scale.set(j%2?2:p.w+.2,.3,j%2?p.d+.2:2);t.position.set(0,p.h/2+.2,j%2?0:(j<2?-1:1)*p.d*.3);}}}};group.userData.looseBodies.push(actor);}
 
+ // Place-specific details use the same solid footprints; the travel lane stays clear.
+ if(parking){
+  for(const z of [70,690]){const pipe=cylinder(group,600,89,z,2.4,1070,'#536663');pipe.rotation.z=Math.PI/2;for(const x of [160,440,750,1050]){box(group,x,90,z,7,5,10,'#7c8173');const drip=box(group,x,38,z, .5,8,.5,'#8dada9');drip.material.transparent=true;drip.material.opacity=.3;group.userData.mallDrips??=[];group.userData.mallDrips.push({mesh:drip,phase:x*.1});}}
+  for(const [x,z]of [[180,265],[650,475],[1040,285]]){const puddle=new T.Mesh(new T.CircleGeometry(1,24),new T.MeshStandardMaterial({color:'#151f22',roughness:.16,metalness:.25,transparent:true,opacity:.62,depthWrite:false}));puddle.rotation.x=-Math.PI/2;puddle.position.set(x,.05,z);puddle.scale.set(48,15,1);group.add(puddle);}
+  retailPanel(group,'MERIDIAN','P 2   /   N O R T H   P A R K I N G',600,81,36,260,29,'#a6b9ad');
+  sign('RETAIL ↑ / SERVICE LIFT',1030,72,330,145,16,'#d0bb83');
+  for(const [x,text]of [[285,'B'],[610,'C'],[965,'D']])sign('P2 / '+text,x,64,95,72,20,'#b9b69c');
+  // Fluorescent pools leave dark gaps between the parking bays.
+  for(const x of [230,600,1000]){box(group,x,83,280,70,4,10,'#283331');glow(group,x,80,280,58,1,5,'#b7c8b2');const lamp=new T.PointLight('#b8c6b0',1250,165,2);lamp.position.set(x,75,280);group.add(lamp);group.userData.animations.push({kind:'light',mesh:lamp,base:1250,phase:x*.1});}
+ }else if(level===1){
+  retailPanel(group,'YOU ARE HERE','P H A R M A C Y   /   F O O D   H A L L   /   S E C U R I T Y',462,69,345,125,18,'#c7c09f');
+  for(const x of [300,590,875]){const banner=box(group,x,85,48,44,34,1,'#465c55');banner.rotation.z=(x%3-1)*.045;sign('SALE',x,86,51,34,13,'#c0b79b');}
+  sign('SECURITY →',880,65,260,105,14,'#adc3b4');
+  sign('PLEASE DO NOT LEAVE CHILDREN UNATTENDED',495,55,690,215,11,'#a49578');
+ }
+ if(!clean){group.userData.mallEntrances=[];for(const portal of m.entrances||[]){let door=null;const direction=Math.atan2(portal.toY-portal.y,portal.toX-portal.x),x=portal.x-Math.cos(direction)*13,z=portal.y-Math.sin(direction)*13;
+  if(portal.kind==='shop'){const curtain=box(group,x,24,z,54,48,1,'#10191a');curtain.material=new T.MeshStandardMaterial({color:'#10191a',roughness:1,transparent:true,opacity:.87});for(const dx of [-27,27])box(group,x+dx,24,z,2,48,2,'#394840');}
+  if(portal.kind==='service'){door=box(group,1159,27,portal.y,3,54,54,'#354b47');box(group,1158,57,portal.y,7,5,62,'#788476');sign('STAFF ONLY',1151,66,portal.y,72,12,'#b5c0a7');}
+  const lamp=glow(group,x,10,z,portal.kind==='cars'?9:5,2,3,'#374c40');lamp.material=lamp.material.clone();group.userData.mallEntrances.push({id:portal.id,lamp,door});
+ }}
  function elevator(x,z,incoming,width=140){box(group,x+42,.4,z,84,1,width,'#7c8474');for(const dz of [-width/2,width/2])box(group,x,30,z+dz,9,60,9,'#b0b3a0');box(group,x,63,z,12,8,width+15,'#73857a');const panels=[];for(const side of [-1,1]){const door=box(group,x,30,z+side*width*.25,5,60,width/2,'#9aab9e');panels.push({mesh:door,side});for(let k=0;k<4;k++)box(door,0,0,(k-1.5)*.15,1,1,.01,'#687e73');}group.userData.liftDoors??=[];group.userData.liftDoors.push({panels,z,width,incoming});sign(incoming?'ARRIVAL':'LIFT ↑',x,82,z,85,16,'#cddac3');}
- elevator(180,380,true);if(level!==4)elevator(level===1?1040:1070,level===1?620:380,false,level===1?78:140);
+ elevator(180,380,true);if(level!==4)elevator(level===1?1056:1070,level===1?620:380,false,level===1?78:140);
  if(level===1){sign('KESSLER ARMS',1035,63,510,175,18,'#c7b286');sign('SERVICE LIFT ↑',1090,64,688,110,14,'#bdcbb5');}
  if(level>0&&level<4){
   for(const x of [70,345,620,900]){const light=new T.PointLight('#e7d5b3',m.memoryRuins?650:1800,260,2);light.position.set(x,86,360);group.add(light);}

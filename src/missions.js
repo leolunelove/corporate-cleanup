@@ -1,4 +1,4 @@
-import{mallFloor,mallHint,mallDirective}from'./mall.js';
+import{mallFloor,mallHint,mallDirective}from'./mall.js?v=13340cfdaa2c';
 export const missions={
  mall:{...mallFloor(0),id:'mall',optional:{name:'Rescue the survivor',x:980,y:220},brief:'Clear the parking lot, rescue a survivor, face the host and survive rooftop extraction. Five linked floors.',rewardLabel:'Sidearms & survival gear'},
  recovery:{id:'recovery',name:'ASSET RECOVERY',location:'Vantage Depot',mode:'recovery',brief:'Recover the specimen. Defend the eastern uplink for 18 seconds, defeat the Forecloser, then extract.',color:'#374e58',floor:'#30414c',accent:'#56d6bc',start:{x:600,y:350},targets:[{x:160,y:150}],extract:{x:1050,y:350},boss:{x:1050,y:650},holdTime:18,cover:[{x:300,y:220,w:110,h:65},{x:730,y:400,w:140,h:70},{x:500,y:480,w:65,h:110},{x:800,y:170,w:90,h:65}]},
@@ -26,9 +26,9 @@ export const lobbyMission={id:'quarters',name:'CONTRACTOR BAY',location:'Vantage
 
 // One saved assignment route. Smaller jobs support the Dead Mall operation.
 export const operationRoute=[
- {mission:'mall',name:'DEAD MALL · BREACH',brief:'Clear the parking approach and secure the service lift. Vantage will need supplies before sending you deeper.',floorStart:0,floorEnd:0},
+ {mission:'mall',name:'DEAD MALL · BREACH',brief:'Restore the parking lift, enter the deserted shopping floor and escort the survivor to Kessler Arms.',floorStart:0,floorEnd:1},
  {mission:'recovery',name:'SUPPLY RUN',brief:'Recover a depot supply case for the mall team, then extract. One task. No boss.',quick:true},
- {mission:'mall',name:'DEAD MALL · THE SURVIVOR',brief:'Enter the retail floor, rescue the survivor and reach Kessler Arms. Discover what followed you upstairs.',floorStart:1,floorEnd:2},
+ {mission:'mall',name:'DEAD MALL · THE HOST',brief:'Return to the survivor in isolation. Discover what followed you upstairs.',floorStart:2,floorEnd:2},
  {mission:'sabotage',name:'RESTORE THE ROUTE',brief:'Secure two power relays at Bastion so the mall team can reach the upper galleries. Then extract.',quick:true},
  {mission:'mall',name:'DEAD MALL · EXTRACTION',brief:'Push through the upper galleries and reach the roof. Hold for the helicopter.',floorStart:3,floorEnd:4}
 ];
@@ -37,3 +37,5 @@ export function quickMission(id='recovery'){
  const targets=base.id==='recovery'?[base.targets[0]]:base.id==='sabotage'?base.targets.slice(0,2):[{x:600,y:350}];
  return {...base,quick:true,mall:false,intro:false,advance:false,gates:[],mode:'quick',name:base.id==='recovery'?'SUPPLY PICKUP':base.id==='sabotage'?'RELAY RUN':'ARCHIVE RECOVERY',targets,holdTime:0,optional:null,brief:'Complete '+targets.length+' task'+(targets.length===1?'':'s')+' and hold Interact at extraction. No boss.'};
 }
+
+export function operationAssignment(profile){const stage=operationRoute[profile.operationStep||0];return profile.operationStep===2&&!profile.mallRetailCleared?{...stage,name:'DEAD MALL · THE SURVIVOR',brief:'Continue through retail, rescue the survivor and reach Kessler Arms before entering the isolation floor.',floorStart:1}:stage;}
