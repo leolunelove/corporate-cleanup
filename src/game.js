@@ -1,4 +1,4 @@
-import{initArena,stepArena}from'./arena.js';
+import{initArena,stepArena}from'./arena.js?v=20261018-arena-1';
 import{stepMallProps,hitMallProp,hitMallFixture}from'./mall-props.js';
 import{updateMall,finishMallFilm,enterMallFloor}from'./mall.js';
 export function completeMallScene(g,id){finishMallFilm(g,id,makeEnemy);}
@@ -8,7 +8,7 @@ import{navigateEnemy,crowdSteering,clearRoute}from'./navigation.js';
 import{weapons,weaponSlots}from'./weapons.js';
 export{weapons}from'./weapons.js';
 import{missions,introMission,lobbyMission,quickMission}from'./missions.js';
-import{rollItem}from'./progression.js';
+import{rollItem}from'./progression.js?v=20261018-arena-1';
 export const enemyTypes={bot:{hp:100,speed:120,damage:18,r:16},walker:{hp:60,speed:55,damage:9,r:17},runner:{hp:38,speed:125,damage:7,r:14},brute:{hp:190,speed:38,damage:18,r:23},spitter:{hp:75,speed:48,damage:8,r:18},boss:{hp:1400,speed:48,damage:22,r:32}};
 function shotOrigin(g,angle,offset=0){const tx=g.p.x+Math.cos(angle)*23-Math.sin(angle)*offset,ty=g.p.y+Math.sin(angle)*23+Math.cos(angle)*offset,n=Math.ceil(Math.hypot(tx-g.p.x,ty-g.p.y)/2);for(let i=1;i<=n;i++){const x=g.p.x+(tx-g.p.x)*i/n,y=g.p.y+(ty-g.p.y)*i/n;if(blocked(x,y,2,g.cover))return{x,y};}return{x:tx,y:ty};}
 function bulletImpact(g,b,surface='metal',obstacle=null){let x=b.x,y=b.y,nx=-Math.sign(b.vx||1),ny=0;if(obstacle){const faces=[{d:Math.abs(x-obstacle.x),nx:-1,ny:0,x:obstacle.x-1,y},{d:Math.abs(x-obstacle.x-obstacle.w),nx:1,ny:0,x:obstacle.x+obstacle.w+1,y},{d:Math.abs(y-obstacle.y),nx:0,ny:-1,x,y:obstacle.y-1},{d:Math.abs(y-obstacle.y-obstacle.h),nx:0,ny:1,x,y:obstacle.y+obstacle.h+1}].sort((a,b)=>a.d-b.d);({x,y,nx,ny}=faces[0]);}else{const length=Math.hypot(b.vx,b.vy)||1;nx=-b.vx/length;ny=-b.vy/length;}const duration=surface==='ceramic'?.32:.26,id=g.impactSerial=(g.impactSerial||0)+1;g.impacts.push({id,x,y,z:25,nx,ny,angle:Math.atan2(ny,nx),surface,weapon:b.weapon||g.weapon,life:duration,duration});if(g.impacts.length>64)g.impacts.shift();if(obstacle){g.surfaceMarks??=[];if(!g.surfaceMarks.some(m=>m.nx===nx&&m.ny===ny&&Math.hypot(m.x-x,m.y-y)<5)){g.surfaceMarks.push({x,y,nx,ny,life:25,size:b.weapon==='marksman'?3.4:b.weapon==='shotgun'?1.8:2.2});if(g.surfaceMarks.length>96)g.surfaceMarks.shift();}}}

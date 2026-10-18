@@ -1,11 +1,11 @@
 import{heroMaterial,upgradeHeroMaterial,normalizeHeroColors,getHeroSurfaces}from'./hero-surfaces.js';
-import{surfaceAt}from'./soundscape.js';
+import{surfaceAt}from'./soundscape.js?v=20261018-arena-1';
 import{buildMallEnvironment,animateMallLife}from'./mall-render.js';
 import{createEnemySkin,updateEnemySkin}from'./enemy-rig.js';
 import{stabilizeSoldierLimb,createSoldierSkin,updateSoldierSkin,disposeSoldierSkin,soldierMaterial}from'./soldier-rig.js';
 import{navigationHint}from'./missions.js';
 import{cinematicActors}from'./cinematic.js';
-import{cover}from'./game.js';
+import{cover}from'./game.js?v=20261018-arena-1';
 import{damp,reloadPose,pumpPose,weaponFeel,dashPose,gaitFoot,weaponSway}from'./motion.js';
 // Presentation uses WebGL; collision and missions remain in the independent simulation.
 const T=globalThis.THREE;
