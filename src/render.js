@@ -1,15 +1,15 @@
-import{edgeLook}from'./camera-edge.js?v=2d2b610cad2b';
-import{buildDistrictEnvironment}from'./district-render.js?v=2d2b610cad2b';
-import{buildArenaEnvironment}from'./arena-render.js?v=2d2b610cad2b';
-import{heroMaterial,upgradeHeroMaterial,normalizeHeroColors,getHeroSurfaces}from'./hero-surfaces.js?v=2d2b610cad2b';
-import{surfaceAt}from'./soundscape.js?v=2d2b610cad2b';
-import{buildMallEnvironment,animateMallLife}from'./mall-render.js?v=2d2b610cad2b';
-import{createEnemySkin,updateEnemySkin}from'./enemy-rig.js?v=2d2b610cad2b';
-import{stabilizeSoldierLimb,createSoldierSkin,updateSoldierSkin,disposeSoldierSkin,soldierMaterial}from'./soldier-rig.js?v=2d2b610cad2b';
-import{navigationHint}from'./missions.js?v=2d2b610cad2b';
-import{cinematicActors}from'./cinematic.js?v=2d2b610cad2b';
-import{cover}from'./game.js?v=2d2b610cad2b';
-import{damp,reloadPose,pumpPose,weaponFeel,dashPose,gaitFoot,weaponSway}from'./motion.js?v=2d2b610cad2b';
+import{edgeLook}from'./camera-edge.js?v=621a39101430';
+import{buildDistrictEnvironment}from'./district-render.js?v=621a39101430';
+import{buildArenaEnvironment}from'./arena-render.js?v=621a39101430';
+import{heroMaterial,upgradeHeroMaterial,normalizeHeroColors,getHeroSurfaces}from'./hero-surfaces.js?v=621a39101430';
+import{surfaceAt}from'./soundscape.js?v=621a39101430';
+import{buildMallEnvironment,animateMallLife}from'./mall-render.js?v=621a39101430';
+import{createEnemySkin,updateEnemySkin}from'./enemy-rig.js?v=621a39101430';
+import{stabilizeSoldierLimb,createSoldierSkin,updateSoldierSkin,disposeSoldierSkin,soldierMaterial}from'./soldier-rig.js?v=621a39101430';
+import{navigationHint}from'./missions.js?v=621a39101430';
+import{cinematicActors}from'./cinematic.js?v=621a39101430';
+import{cover}from'./game.js?v=621a39101430';
+import{damp,reloadPose,pumpPose,weaponFeel,dashPose,gaitFoot,weaponSway}from'./motion.js?v=621a39101430';
 // Presentation uses WebGL; collision and missions remain in the independent simulation.
 const T=globalThis.THREE;
 export const camera={x:600,y:350,zoom:1.5,shake:0,edgeX:0,edgeY:0,swayX:0,swayY:0,pump:0,pumpCenter:{x:.5,y:.5}};

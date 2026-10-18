@@ -1,4 +1,4 @@
-import{weapons}from'./weapons.js?v=2d2b610cad2b';
+import{weapons}from'./weapons.js?v=621a39101430';
 // Frame-rate independent presentation. No DOM, renderer, or game rules.
 export const damp=(from,to,rate,dt)=>to+(from-to)*Math.exp(-rate*dt);
 export const angleDelta=(a,b)=>Math.atan2(Math.sin(b-a),Math.cos(b-a));

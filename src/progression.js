@@ -1,5 +1,5 @@
 export const defaultSettings={weapons:1,enemies:1,ambience:1,music:.6,footsteps:.7,shake:1,lookAhead:1,blood:true,particles:true,flashes:true,toggleLock:false,largeCrosshair:false};
-import{weaponSlots,weaponLabels}from'./weapons.js?v=2d2b610cad2b';
+import{weaponSlots,weaponLabels}from'./weapons.js?v=621a39101430';
 export const rarityNames=['STANDARD','IMPROVED','RARE','ELITE'];
 export const rarityColors=['#abb7ae','#7ebd9a','#78b9e6','#c594e1'];
 export function threshold(level){return 100*(level-1)*level;}
