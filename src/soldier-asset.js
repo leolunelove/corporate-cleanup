@@ -1,0 +1,10 @@
+import part0 from './soldier-asset-part-1.js';
+import part1 from './soldier-asset-part-2.js';
+import part2 from './soldier-asset-part-3.js';
+import part3 from './soldier-asset-part-4.js';
+import part4 from './soldier-asset-part-5.js';
+import part5 from './soldier-asset-part-6.js';
+import part6 from './soldier-asset-part-7.js';
+import part7 from './soldier-asset-part-8.js';
+import part8 from './soldier-asset-part-9.js';
+export const soldierAsset=JSON.parse(part0+part1+part2+part3+part4+part5+part6+part7+part8);
