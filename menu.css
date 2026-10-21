@@ -87,3 +87,4 @@ body:has(#arena:not(.menuOpen)) header .tag{font:10px Arial,sans-serif;letter-sp
 body.booting>header,body.booting>main{visibility:hidden}
 #boot{position:fixed;inset:0;z-index:10000;background:#080e11;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;color:#e9e8db;font-family:Arial,sans-serif;text-align:center;padding:24px}
 #boot small{font-size:10px;letter-spacing:3px;color:#99aaa9}#boot strong{font:clamp(24px,5vw,44px) Impact,'Arial Narrow',sans-serif;letter-spacing:1px}#boot span{font-size:12px;color:#acb6b3}#boot i{display:block;width:26px;height:26px;border:2px solid #32403d;border-top-color:#d88b51;border-radius:50%;animation:bootTurn 1.3s linear infinite}@keyframes bootTurn{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){#boot i{animation:none;border-color:#d88b51}}
+body:has(#arena:not(.menuOpen)) header .tag{margin-left:auto!important}
