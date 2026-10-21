@@ -72,3 +72,18 @@ html,body,main,#arena{overflow:clip!important}
 #quarters .resultReward>p{font-size:10px!important;margin:4px 0 6px!important}.menuShell.resultsFlow .rewardBenefit{font-size:11px!important;margin-bottom:7px!important}
 #quarters .resultReward .rewardEquip{min-height:34px!important;padding:8px!important}#quarters .resultNote{margin:7px 0 2px!important}
 @media(max-width:700px){#overlay.menuShell.resultsFlow #menuBack{top:58px!important}.menuShell.resultsFlow .resultReward{min-height:150px!important}.menuShell.resultsFlow .rewardSilhouette{height:35px!important}}
+/* Field HUD: one directive, quiet radio, and essential combat information. */
+body:has(#arena:not(.menuOpen)) header .tag{font:10px Arial,sans-serif;letter-spacing:1.3px;color:#a5b2ae;max-width:360px;text-align:right}
+#career{display:none!important}
+#gameTop .objective{max-width:360px!important;line-height:1.5!important;padding:12px 16px!important;box-shadow:0 5px 22px #0003}
+#gameTop .objective small{display:none}
+#objective{font:13px/1.5 Arial,sans-serif!important;font-weight:600!important;letter-spacing:.2px!important}
+#radio{font:12px/1.5 Arial,sans-serif!important;color:#c4cbc5!important;max-width:390px!important;transition:opacity .4s}
+#radio.radioQuiet{opacity:0;pointer-events:none}
+#combatHud>div:nth-child(3) span{font:10px/1.5 Arial,sans-serif;letter-spacing:.6px}
+@media(max-width:700px){#gameTop .objective{max-width:260px!important;padding:8px 12px!important}#objective{font-size:11px!important}#radio{display:none!important}}
+
+/* Keep the unfinished HTML out of the loading path while the engine assets load. */
+body.booting>header,body.booting>main{visibility:hidden}
+#boot{position:fixed;inset:0;z-index:10000;background:#080e11;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;color:#e9e8db;font-family:Arial,sans-serif;text-align:center;padding:24px}
+#boot small{font-size:10px;letter-spacing:3px;color:#99aaa9}#boot strong{font:clamp(24px,5vw,44px) Impact,'Arial Narrow',sans-serif;letter-spacing:1px}#boot span{font-size:12px;color:#acb6b3}#boot i{display:block;width:26px;height:26px;border:2px solid #32403d;border-top-color:#d88b51;border-radius:50%;animation:bootTurn 1.3s linear infinite}@keyframes bootTurn{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){#boot i{animation:none;border-color:#d88b51}}
