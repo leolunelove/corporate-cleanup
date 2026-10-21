@@ -1,14 +1,14 @@
-import{initArena,stepArena}from'./arena.js?v=4e15272c47c3';
-import{stepMallProps,hitMallProp,hitMallFixture}from'./mall-props.js?v=4e15272c47c3';
-import{updateMall,finishMallFilm,enterMallFloor}from'./mall.js?v=4e15272c47c3';
+import{initArena,stepArena}from'./arena.js?v=53bddc32374e';
+import{stepMallProps,hitMallProp,hitMallFixture}from'./mall-props.js?v=53bddc32374e';
+import{updateMall,finishMallFilm,enterMallFloor}from'./mall.js?v=53bddc32374e';
 export function completeMallScene(g,id){finishMallFilm(g,id,makeEnemy);}
-import{bossArmor,damageBoss,updateBoss}from'./boss.js?v=4e15272c47c3';
-import{trainingMission,trainingTargets,updateTraining}from'./training.js?v=4e15272c47c3';
-import{navigateEnemy,crowdSteering,clearRoute}from'./navigation.js?v=4e15272c47c3';
-import{weapons,weaponSlots}from'./weapons.js?v=4e15272c47c3';
-export{weapons}from'./weapons.js?v=4e15272c47c3';
-import{missions,introMission,lobbyMission,quickMission}from'./missions.js?v=4e15272c47c3';
-import{rollItem}from'./progression.js?v=4e15272c47c3';
+import{bossArmor,damageBoss,updateBoss}from'./boss.js?v=53bddc32374e';
+import{trainingMission,trainingTargets,updateTraining}from'./training.js?v=53bddc32374e';
+import{navigateEnemy,crowdSteering,clearRoute}from'./navigation.js?v=53bddc32374e';
+import{weapons,weaponSlots}from'./weapons.js?v=53bddc32374e';
+export{weapons}from'./weapons.js?v=53bddc32374e';
+import{missions,introMission,lobbyMission,quickMission}from'./missions.js?v=53bddc32374e';
+import{rollItem}from'./progression.js?v=53bddc32374e';
 export const enemyTypes={bot:{hp:100,speed:120,damage:18,r:16},walker:{hp:60,speed:55,damage:9,r:17},runner:{hp:38,speed:125,damage:7,r:14},brute:{hp:190,speed:38,damage:18,r:23},spitter:{hp:75,speed:48,damage:8,r:18},boss:{hp:1400,speed:48,damage:22,r:32}};
 function shotCanHit(g,e){return e.hp>0&&(!g.arena||g.arenaMode==='ffa'||e.team!==g.p.team)&&e.entranceState!=='hidden'&&e.entranceState!=='warning'&&(!g.arena||!e.shield);}
 function shotOrigin(g,angle,offset=0){const tx=g.p.x+Math.cos(angle)*23-Math.sin(angle)*offset,ty=g.p.y+Math.sin(angle)*23+Math.cos(angle)*offset,n=Math.ceil(Math.hypot(tx-g.p.x,ty-g.p.y)/2);for(let i=1;i<=n;i++){const x=g.p.x+(tx-g.p.x)*i/n,y=g.p.y+(ty-g.p.y)*i/n;if(blocked(x,y,2,g.cover)||g.enemies.some(e=>shotCanHit(g,e)&&Math.hypot(e.x-x,e.y-y)<e.r+2))return{x,y};}return{x:tx,y:ty};}
@@ -59,8 +59,8 @@ let pumpOld=g.pump;g.pump=Math.max(0,g.pump-dt);if(pumpOld>.55&&g.pump<=.55)g.ev
  if(type==='spitter'){const sight=clearRoute(e,g.p,3,g.cover);if(sight&&d<180)speed=-def.speed;else if(sight&&d<310)speed=0;if(e.ability<=0&&d<450&&sight&&!e.attackWind){e.attackWind=windTimes.spitter;e.attackWindTotal=windTimes.spitter;e.attackFacing=Math.atan2(y,x);e.attackKind='spit';g.enemySounds.push({type, cue:'attack',x:e.x,y:e.y});}}
  else if(e.attack<=0&&d<reach+18&&!e.attackWind&&!(type==='boss'&&(e.windup>0||e.slamAnim>0))){e.attackWind=windTimes[type];e.attackWindTotal=windTimes[type];e.attackFacing=Math.atan2(y,x);e.attackKind='melee';g.enemySounds.push({type,cue:'attack',x:e.x,y:e.y});}
  if(e.attackWind>0){speed=0;e.attackWind=Math.max(0,e.attackWind-dt);if(e.attackWind===0){if(e.attackKind==='spit'){g.hostileShots.push({x:e.x,y:e.y,vx:Math.cos(e.attackFacing)*250,vy:Math.sin(e.attackFacing)*250,life:2.5});e.ability=2.1;e.spitAnim=.5;g.events.push('spit');}else{const angle=Math.atan2(g.p.y-e.y,g.p.x-e.x),difference=Math.atan2(Math.sin(angle-e.attackFacing),Math.cos(angle-e.attackFacing));if(Math.hypot(g.p.x-e.x,g.p.y-e.y)<reach&&Math.abs(difference)<.85&&clearRoute(e,g.p,2,g.cover))hurtPlayer(g,def.damage);e.attackAnim=.4;e.attack=type==='brute'?1.25:.8;}}}
- if(e.attackAnim>.2||e.spitAnim>.25||e.slamAnim>.25)speed=0;
- if(e.stagger>0){e.stagger=Math.max(0,e.stagger-dt);speed=0;}const route=navigateEnemy(g,e),spacing=crowdSteering(g,e);let sx=route.x,sy=route.y;if(speed<0){sx=-x/d;sy=-y/d;}const distance=Math.abs(speed)*dt;let vx=sx*Math.abs(speed)+(speed===0?0:spacing.x*55),vy=sy*Math.abs(speed)+(speed===0?0:spacing.y*55),length=Math.hypot(vx,vy),cap=Math.abs(speed)+15;if(length>cap){vx*=cap/length;vy*=cap/length;}const oldX=e.x,oldY=e.y;const slices=Math.max(1,Math.ceil(distance/6));for(let i=0;i<slices;i++)move(e,vx*dt/slices,vy*dt/slices,g.cover);e.vx=(e.x-oldX)/dt;e.vy=(e.y-oldY)/dt;if(Math.hypot(e.vx,e.vy)>2)e.moveFacing=Math.atan2(e.vy,e.vx);e.face=e.attackWind>0||e.attackAnim>0||e.spitAnim>0?e.attackFacing:e.moveFacing??Math.atan2(y,x);}
+ if(e.attackAnim>.2||e.spitAnim>.25||e.slamAnim>.25||type!=='spitter'&&d<g.p.r+e.r+2)speed=0;
+ if(e.stagger>0){e.stagger=Math.max(0,e.stagger-dt);speed=0;}const route=navigateEnemy(g,e),spacing=crowdSteering(g,e);let sx=route.x,sy=route.y;if(speed<0){sx=-x/d;sy=-y/d;}const distance=Math.abs(speed)*dt;let vx=sx*Math.abs(speed)+(speed===0?0:spacing.x*55),vy=sy*Math.abs(speed)+(speed===0?0:spacing.y*55),length=Math.hypot(vx,vy),cap=Math.abs(speed)+15;if(length>cap){vx*=cap/length;vy*=cap/length;}const oldX=e.x,oldY=e.y;const slices=Math.max(1,Math.ceil(distance/6));for(let i=0;i<slices;i++)move(e,vx*dt/slices,vy*dt/slices,g.cover);if(type!=='boss'){const dx=e.x-g.p.x,dy=e.y-g.p.y,separation=Math.hypot(dx,dy),minimum=(e.r+g.p.r)*.94;if(separation<minimum){const angle=separation>.01?Math.atan2(dy,dx):(g.p.face||0),push=Math.min(minimum-separation,180*dt);move(e,Math.cos(angle)*push,Math.sin(angle)*push,g.cover);}}e.vx=(e.x-oldX)/dt;e.vy=(e.y-oldY)/dt;if(Math.hypot(e.vx,e.vy)>2)e.moveFacing=Math.atan2(e.vy,e.vx);e.face=e.attackWind>0||e.attackAnim>0||e.spitAnim>0?e.attackFacing:e.moveFacing??Math.atan2(y,x);}
  // Gentle physical separation only for mobile enemies; committed attacks stay anchored.
  for(let i=0;i<g.enemies.length;i++)for(let j=i+1;j<g.enemies.length;j++){const a=g.enemies[i],b=g.enemies[j];if((a.entranceState&&a.entranceState!=='done')||(b.entranceState&&b.entranceState!=='done')||a.dormant||b.dormant||a.dummy||b.dummy||a.type==='boss'||b.type==='boss')continue;if(a.hp<=0||b.hp<=0)continue;const dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy),minimum=(a.r+b.r)*.9;if(d>.01&&d<minimum){const push=Math.min((minimum-d)*.4,90*dt),nx=dx/d,ny=dy/d;if(!a.attackWind&&!a.windup&&!a.attackAnim)move(a,nx*push,ny*push,g.cover);if(!b.attackWind&&!b.windup&&!b.attackAnim)move(b,-nx*push,-ny*push,g.cover);}}
  for(const b of g.hostileShots){if(!b.nearWarned){const dx=g.p.x-b.x,dy=g.p.y-b.y,speed=Math.hypot(b.vx,b.vy)||1,ahead=(dx*b.vx+dy*b.vy)/speed,miss=Math.abs(dx*b.vy-dy*b.vx)/speed;if(ahead>0&&ahead<65&&miss>g.p.r+8&&miss<56&&clearRoute(b,g.p,4,g.cover)){b.nearWarned=true;g.events.push('near_miss');}}const slices=Math.max(1,Math.ceil(250*dt/8));for(let i=0;i<slices&&b.life>0;i++){b.x+=b.vx*dt/slices;b.y+=b.vy*dt/slices;if(blocked(b.x,b.y,4,g.cover)){b.life=0;break;}if(Math.hypot(g.p.x-b.x,g.p.y-b.y)<g.p.r+5){hurtPlayer(g,12);b.life=0;}}b.life-=dt;}g.hostileShots=g.hostileShots.filter(b=>b.life>0);

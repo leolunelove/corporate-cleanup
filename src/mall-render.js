@@ -202,6 +202,7 @@ export function buildMallEnvironment(T,g,{box,cylinder,label,glow}){
  }
  if(!clean){group.userData.mallEntrances=[];for(const portal of m.entrances||[]){let door=null;const direction=Math.atan2(portal.toY-portal.y,portal.toX-portal.x),x=portal.x-Math.cos(direction)*13,z=portal.y-Math.sin(direction)*13;
   if(portal.kind==='shop'){const curtain=box(group,x,24,z,54,48,1,'#10191a');curtain.material=new T.MeshStandardMaterial({color:'#10191a',roughness:1,transparent:true,opacity:.87});for(const dx of [-27,27])box(group,x+dx,24,z,2,48,2,'#394840');}
+  if(portal.kind==='roof'){box(group,x,24,z,66,48,3,'#182220');box(group,x-35,28,z,5,56,8,'#59665e');box(group,x+35,28,z,5,56,8,'#59665e');sign('STAIR B',x,58,z,65,12,'#b5c0a7');}
   if(portal.kind==='service'){door=box(group,1159,27,portal.y,3,54,54,'#354b47');box(group,1158,57,portal.y,7,5,62,'#788476');sign('STAFF ONLY',1151,66,portal.y,72,12,'#b5c0a7');}
   const lamp=glow(group,x,10,z,portal.kind==='cars'?9:5,2,3,'#374c40');lamp.material=lamp.material.clone();group.userData.mallEntrances.push({id:portal.id,lamp,door});
  }}
