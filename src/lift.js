@@ -1,4 +1,4 @@
-import{navigateEnemy}from'./navigation.js?v=53bddc32374e';
+import{navigateEnemy}from'./navigation.js?v=a060976fb0fa';
 export function planLiftWalk(g,target,move){const actor={x:g.p.x,y:g.p.y,r:g.p.r},path=[{x:actor.x,y:actor.y}],route={p:target,cover:g.cover,time:0,navigation:new Map()};for(let i=0;i<600&&Math.hypot(actor.x-target.x,actor.y-target.y)>4;i++){route.time=i/30;const direction=navigateEnemy(route,actor),distance=Math.min(5,Math.hypot(actor.x-target.x,actor.y-target.y));move(actor,direction.x*distance,direction.y*distance,g.cover);path.push({x:actor.x,y:actor.y});}if(Math.hypot(actor.x-target.x,actor.y-target.y)>8)return null;return {path,walk:Math.max(1.3,(path.length-1)/30)};}
 const liftEase=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export function liftFrame(time,id,anchor,reduced=false){

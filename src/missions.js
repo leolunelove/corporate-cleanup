@@ -1,4 +1,4 @@
-import{mallFloor,mallHint,mallDirective}from'./mall.js?v=53bddc32374e';
+import{mallFloor,mallHint,mallDirective}from'./mall.js?v=a060976fb0fa';
 export const missions={
  mall:{...mallFloor(0),id:'mall',optional:{name:'Rescue the survivor',x:980,y:220},brief:'Clear the parking lot, rescue a survivor, face the host and survive rooftop extraction. Five linked floors.',rewardLabel:'Sidearms & survival gear'},
  recovery:{id:'recovery',name:'ASSET RECOVERY',location:'Vantage Depot',mode:'recovery',brief:'Recover the specimen. Defend the eastern uplink for 18 seconds, defeat the Forecloser, then extract.',color:'#374e58',floor:'#30414c',accent:'#56d6bc',start:{x:600,y:350},targets:[{x:160,y:150}],extract:{x:1050,y:350},boss:{x:1050,y:650},holdTime:18,cover:[{x:300,y:220,w:110,h:65},{x:730,y:400,w:140,h:70},{x:500,y:480,w:65,h:110},{x:800,y:170,w:90,h:65}]},
