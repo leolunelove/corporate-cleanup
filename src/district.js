@@ -1,4 +1,4 @@
-import {createGame,step,makeEnemy,blocked,weapons,move} from './game.js?v=a060976fb0fa';
+import {createGame,step,makeEnemy,blocked,weapons,move} from './game.js?v=bbc58094a157';
 export const districtSaveKey='corporate-cleanup.district.v1';
 const wall=(x,y,w,h,kind='wall')=>({x,y,w,h,kind});
 export const districtCover=[wall(12,12,1176,12),wall(12,736,1176,12),wall(12,12,12,736),wall(1176,12,12,736),

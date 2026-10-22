@@ -1,9 +1,9 @@
-import {createEnemyAudio} from './enemy-audio.js?v=a060976fb0fa';
-import {createDistrict,stepDistrict,districtSaveKey,districtArea,districtObjective,districtInteraction,districtWaypoint,districtSafe} from './district.js?v=a060976fb0fa';
-import {initRenderer,draw,screenMove,screenToWorld,updateCamera,resetCamera,forwardCursor,camera,muzzleStyles,playerCursor} from './render.js?v=a060976fb0fa';
-import {weapons} from './weapons.js?v=a060976fb0fa';
-import {createPose,updatePose,kick,clearAim,snapshotMotion,interpolateMotion} from './motion.js?v=a060976fb0fa';
-import {createTouchControls,touchFireActive} from './touch.js?v=a060976fb0fa';
+import {createEnemyAudio} from './enemy-audio.js?v=bbc58094a157';
+import {createDistrict,stepDistrict,districtSaveKey,districtArea,districtObjective,districtInteraction,districtWaypoint,districtSafe} from './district.js?v=bbc58094a157';
+import {initRenderer,draw,screenMove,screenToWorld,updateCamera,resetCamera,forwardCursor,camera,muzzleStyles,playerCursor} from './render.js?v=bbc58094a157';
+import {weapons} from './weapons.js?v=bbc58094a157';
+import {createPose,updatePose,kick,clearAim,snapshotMotion,interpolateMotion} from './motion.js?v=bbc58094a157';
+import {createTouchControls,touchFireActive} from './touch.js?v=bbc58094a157';
 const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('2d');let saved={};try{saved=JSON.parse(localStorage.getItem(districtSaveKey)||'{}');}catch{}
 let g=createDistrict(saved),previous=snapshotMotion(g),running=false,paused=false,keys=new Set(),cursor={x:700,y:400},mouse={fire:false,ads:false},pendingFire=false,pendingDodge=false,pendingInteract=false,pendingReload=false,acc=0,last=performance.now(),audio=null,enemyAudio=null,cityBed=null,nextFoot=0;
 g.pose=createPose();initRenderer($('world'));resetCamera(g.p);const aim0=forwardCursor(g.p);cursor={...aim0};
