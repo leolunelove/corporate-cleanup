@@ -1,0 +1,18 @@
+// Original inventory illustrations. Shared by slots, storage, inspection and rewards.
+const pistol='<path fill="#252e33" d="M31 29h103l8 6-3 13H83L69 78H47l8-30H32z"/><path fill="#87938e" d="M34 27h99v10H34z"/><path fill="#4c5b58" d="M34 38h104v8H34z"/><path fill="#141d22" d="M59 50h18L65 74H52z"/><path fill="none" stroke="#677772" stroke-width="3" d="M81 48v12H71"/><path stroke="#c0c6b6" d="M39 29v7m5-7v7m5-7v7m5-7v7m64-7v7m5-7v7"/><path fill="#c2a779" d="M92 38h19v5H92z"/><path fill="#192025" d="M131 25h5v4h-5z"/>';
+const rifle='<path fill="#3a4948" d="M12 34h35l10 7-7 13H30L11 65H4l8-21z"/><path fill="#7b8983" d="M47 32h78v20H48z"/><path fill="#283431" d="M62 50h21L72 79H57zM90 49h18l6 26H95z"/><path fill="#526560" d="M114 35h51v13h-51z"/><path fill="#a1aaa0" d="M160 38h33v6h-33z"/><path fill="#26302e" d="M186 36h11v10h-11zM72 26h40v6H72z"/><path stroke="#b5b9a9" d="M53 34h62M121 38v7m7-7v7m7-7v7m7-7v7m7-7v7"/><path fill="#151f22" d="M84 38h23v7H84z"/><path fill="#b59b70" d="M86 39h17v3H86z"/><path fill="none" stroke="#697d71" stroke-width="2" d="M77 52l9 6-7 9H71"/>';
+const shotgun='<path fill="#34413c" d="M7 39h37l15 8-9 12H30L9 71H3l9-22z"/><path fill="#78847c" d="M44 37h65v17H45z"/><path fill="#27342e" d="M65 53h19L74 76H59z"/><path fill="#b2b5a2" d="M106 36h85v6h-85z"/><path fill="#58685c" d="M108 45h78v6h-78z"/><path fill="#3d5145" d="M117 41h38v15h-38z"/><path stroke="#9aa58c" d="M122 43v11m6-11v11m6-11v11m6-11v11m6-11v11M48 38h55"/><path fill="#1b2523" d="M79 42h22v7H79z"/><path fill="#b8a070" d="M81 43h16v3H81z"/><path fill="#bec3ab" d="M181 33h4v3h-4z"/>';
+const armor='<path fill="#35483c" d="M63 8h21l16 15 16-15h21l16 26-13 10v42H60V44L47 34z"/><path fill="#6c7c62" d="M64 10h17v24H61zM119 10h16l5 24h-21z"/><path fill="#889178" d="M72 32h56l7 10-5 35H70l-5-35z"/><path fill="#3b4e3e" d="M76 38h48v32H76z"/><path fill="#718065" d="M60 58h18v20H60zM81 58h18v20H81zM102 58h18v20h-18zM123 58h18v20h-18z"/><path fill="#242f29" d="M74 42h52v4H74zM74 50h52v4H74z"/><path fill="#c2b486" d="M89 28h23v5H89z"/><path stroke="#a4ac8c" stroke-width="1" fill="none" d="M64 13v17m71-17v17M68 39l4-4h55l5 4M64 61h10m11 0h10m11 0h10m11 0h10"/>';
+export function gearArt(slot){let shape;
+ if(slot==='armor')shape=armor;
+ else if(slot==='dualPistols')shape='<g transform="translate(0 -3) scale(.8)">'+pistol+'</g><g transform="translate(63 18) scale(.8)">'+pistol+'</g>';
+ else if(slot==='pistol')shape=pistol;
+ else if(slot==='heavyPistol')shape=pistol+'<path fill="#a7aaa0" d="M35 22h105l5 13H35z"/><path fill="#414b4a" d="M48 55h19l-8 20H45z"/>';
+ else if(slot==='shotgun')shape=shotgun;
+ else if(slot==='marksman')shape=rifle+'<path fill="#a6afa4" d="M118 34h76v4h-76z"/><path fill="#293736" d="M70 18h53v10H70z"/><path fill="#96a99d" d="M68 19h6v8h-6zM120 19h6v8h-6z"/><path stroke="#5f746d" stroke-width="3" d="M84 28v4m23-4v4"/>';
+ else if(slot==='smg')shape='<g transform="translate(24 0) scale(.77 1)">'+rifle+'</g><path fill="#7d8c85" d="M76 34h50v17H76z"/><path fill="#343f3c" d="M96 50h13v34H96z"/>';
+ else if(slot==='burst')shape=rifle+'<path fill="#6c7b70" d="M115 31h44v22h-44z"/><path fill="#1d2a27" d="M121 38h7v8h-7zm12 0h7v8h-7zm12 0h7v8h-7z"/><path fill="#bc9b61" d="M62 35h12v3H62z"/>';
+ else if(slot==='rifle')shape=rifle;
+ else shape='<path d="M80 25h40v40H80zM93 13h14v12H93zM93 65h14v12H93z" fill="#50636b"/><path d="M91 39h18v13H91z" fill="#17252c"/>';
+ return '<svg viewBox="0 0 200 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="100" cy="85" rx="75" ry="5" fill="#000" opacity=".22"/><g stroke="#101a1b" stroke-width="1" stroke-linejoin="round">'+shape+'</g></svg>';
+}

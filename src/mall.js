@@ -1,6 +1,6 @@
-import{createMallProps}from'./mall-props.js?v=2af346af25c7';
-import{planLiftWalk}from'./lift.js?v=2af346af25c7';
-import{navigateEnemy,clearRoute}from'./navigation.js?v=2af346af25c7';
+import{createMallProps}from'./mall-props.js?v=5307fa6cc909';
+import{planLiftWalk}from'./lift.js?v=5307fa6cc909';
+import{navigateEnemy,clearRoute}from'./navigation.js?v=5307fa6cc909';
 // Five linked floors; all combat and companion state remains renderer-independent.
 // Every solid prop is rendered from this exact footprint. Flat paint/litter never blocks.
 const mallProp=(id,kind,x,y,w,h,extra={})=>({id,kind,x,y,w,h,...extra});
