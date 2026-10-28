@@ -1,6 +1,6 @@
-import{mallOpeningFrame,stageMallOpening,mallOpeningCues}from'./mall-opening.js?v=bbc58094a157';
-import{liftFrame}from'./lift.js?v=bbc58094a157';
-import{missions,introMission}from'./missions.js?v=bbc58094a157';
+import{mallOpeningFrame,stageMallOpening,mallOpeningCues}from'./mall-opening.js?v=96c493dffcfa';
+import{liftFrame}from'./lift.js?v=96c493dffcfa';
+import{missions,introMission}from'./missions.js?v=96c493dffcfa';
 export const cinematicDuration=32;
 export const cinematicScripts={
  'mall-rescue':['MERIDIAN MALL / SECURITY ROOM','Thank you. I thought nobody was coming back.','There is a gun store across the concourse. I can help you reach it.','Stay close. The service lift is our way up.'],
@@ -45,7 +45,7 @@ export function cinematicCues(previous,time,id,anchor=null){if(id==='mall-before
 
 // Persistent menu tableau, separate from the timed insertion and simulation.
 export function menuTableau(time,mission,reduced=false,portrait=false){
- const drift=reduced?0:Math.sin(time*.14)*12;if(mission.id==='quarters')return{time:reduced?0:time,shot:3,heroProgress:1,heroSpeed:0,resting:true,ready:0,showThreat:false,reduced,lens:{x:mission.start.x-(portrait?0:75)+drift*.25,y:mission.start.y-20,z:portrait?32:28,offsetX:100,height:70,offsetZ:180,zoom:portrait?3.2:4.8}};
+ const drift=reduced?0:Math.sin(time*.14)*12;if(mission.id==='quarters')return{time:reduced?0:time,shot:3,heroProgress:1,heroSpeed:0,resting:true,ready:0,showThreat:false,reduced,lens:{x:mission.start.x-(portrait?12:75)+drift*.25,y:mission.start.y-20,z:portrait?32:28,offsetX:100,height:70,offsetZ:180,zoom:portrait?2.9:4.8,framingY:portrait?-38:0}};
  return {time:reduced?0:time,shot:3,heroProgress:1,heroSpeed:0,ready:1,showThreat:false,reduced,
  lens:{x:mission.start.x-(portrait?10:90)+drift,y:mission.start.y+8,z:20,offsetX:105,height:85,offsetZ:175,zoom:portrait?3.1:4.2}};
 }
