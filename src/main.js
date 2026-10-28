@@ -1,22 +1,22 @@
-import{mallLocation,mallRadio}from'./mall.js?v=96c493dffcfa';
-import{createDistrict,stepDistrict,districtSaveKey,districtObjective,districtInteraction,districtWaypoint,districtArea,districtSafe}from'./district.js?v=96c493dffcfa';
-import{arenaStandings,arenaModes,arenaMaps}from'./arena.js?v=96c493dffcfa';
-import{cinematicAudioMix}from'./mall-opening.js?v=96c493dffcfa';
-import{createCinematicSpeech}from'./cinematic-speech.js?v=96c493dffcfa';
-import {createListen,listenAction,listenStage,listenDuration} from './listen.js?v=96c493dffcfa';
-import{createTouchControls,touchFireActive,touchInteractionAvailable}from'./touch.js?v=96c493dffcfa';
-import{cinematicFrame,cinematicCues,menuTableau}from'./cinematic.js?v=96c493dffcfa';
-import{createSoundscape}from'./soundscape.js?v=96c493dffcfa';
-import{bossPhaseNames}from'./boss.js?v=96c493dffcfa';
-import{tutorialSteps}from'./training.js?v=96c493dffcfa';
-import{createEnemyAudio}from'./enemy-audio.js?v=96c493dffcfa';
-import{createAmbience}from'./ambience.js?v=96c493dffcfa';
-import{weaponSlots,weaponLabels,weaponDescriptions}from'./weapons.js?v=96c493dffcfa';
-import{missions,missionDirective,operationRoute,operationAssignment}from'./missions.js?v=96c493dffcfa';
-import{newProfile,validateProfile,createContractor,needsGuestPrompt,hasClearedContract,levelOf,threshold,maxTier,gearStats,itemName,itemPower,rarityColors,rarityNames,equipItem,upgradeItem,upgradeCost,scrapItem,settleRun,selectCarry,saleValue,sellGear,undoSale,rewardHighlights}from'./progression.js?v=96c493dffcfa';
-import{createGame,step,weapons,completeMallScene}from'./game.js?v=96c493dffcfa';
-import{draw,screenToWorld,playerCursor,camera,updateCamera,resetCamera,initRenderer,drawEngineCinematic,screenMove,visibleMusicEnemies,drawGearPreview,disposeGearPreview,forwardCursor,muzzleStyles,warningViewportBounds}from'./render.js?v=96c493dffcfa';
-import{damp,updatePose,kick,reloadPose,createPose,snapshotMotion,interpolateMotion,weaponFeel,clearAim}from'./motion.js?v=96c493dffcfa';
+import{mallLocation,mallRadio}from'./mall.js?v=2af346af25c7';
+import{createDistrict,stepDistrict,districtSaveKey,districtObjective,districtInteraction,districtWaypoint,districtArea,districtSafe}from'./district.js?v=2af346af25c7';
+import{arenaStandings,arenaModes,arenaMaps}from'./arena.js?v=2af346af25c7';
+import{cinematicAudioMix}from'./mall-opening.js?v=2af346af25c7';
+import{createCinematicSpeech}from'./cinematic-speech.js?v=2af346af25c7';
+import {createListen,listenAction,listenStage,listenDuration} from './listen.js?v=2af346af25c7';
+import{createTouchControls,touchFireActive,touchInteractionAvailable}from'./touch.js?v=2af346af25c7';
+import{cinematicFrame,cinematicCues,menuTableau}from'./cinematic.js?v=2af346af25c7';
+import{createSoundscape}from'./soundscape.js?v=2af346af25c7';
+import{bossPhaseNames}from'./boss.js?v=2af346af25c7';
+import{tutorialSteps}from'./training.js?v=2af346af25c7';
+import{createEnemyAudio}from'./enemy-audio.js?v=2af346af25c7';
+import{createAmbience}from'./ambience.js?v=2af346af25c7';
+import{weaponSlots,weaponLabels,weaponDescriptions}from'./weapons.js?v=2af346af25c7';
+import{missions,missionDirective,operationRoute,operationAssignment}from'./missions.js?v=2af346af25c7';
+import{newProfile,validateProfile,createContractor,needsGuestPrompt,hasClearedContract,levelOf,threshold,maxTier,gearStats,itemName,itemPower,rarityColors,rarityNames,equipItem,upgradeItem,upgradeCost,scrapItem,settleRun,selectCarry,saleValue,sellGear,undoSale,rewardHighlights}from'./progression.js?v=2af346af25c7';
+import{createGame,step,weapons,completeMallScene}from'./game.js?v=2af346af25c7';
+import{draw,screenToWorld,playerCursor,camera,updateCamera,resetCamera,initRenderer,drawEngineCinematic,screenMove,visibleMusicEnemies,drawGearPreview,disposeGearPreview,forwardCursor,muzzleStyles,warningViewportBounds}from'./render.js?v=2af346af25c7';
+import{damp,updatePose,kick,reloadPose,createPose,snapshotMotion,interpolateMotion,weaponFeel,clearAim}from'./motion.js?v=2af346af25c7';
 const c=document.getElementById('game'),world=document.getElementById('world'),ctx=c.getContext('2d'),$=id=>document.getElementById(id);let g=createGame(undefined,'shotgun'),active=false,paused=false,keys=new Set(),mouse={x:600,y:100,fire:false,ads:false},cursor={x:600,y:100},audio,ambience,enemyAudio,soundscape,muted=false,acc=0,last=0,pendingDodge=false,pendingFire=false,pendingWeapon=null,pendingReload=false,pendingDistrictInteract=false;
 let profile;let storageOK=true;try{profile=validateProfile(JSON.parse(localStorage.getItem('corporate-cleanup.v1')))}catch{profile=newProfile();storageOK=false;}let arenaMode='ffa',arenaMapChoice='rotation',arenaRotation=0;const arenaRotationMaps=['terminal','helix'];const nextArenaMap=()=>arenaMapChoice==='rotation'?arenaRotationMaps[arenaRotation%arenaRotationMaps.length]:arenaMapChoice;let operationChoice='main';let contractTier=profile.preferences.tier,selectedMission=profile.preferences.mission,menuScreen='home',gearTab='weapons',gearReturn='home',lastReward=null,lastResultGame=null,practiceReturn='practice',gearFocus=0,selectedGear=null,settingsReturn='home',inventorySort='new',inventoryTab='weapons',pendingSale=null,lastSale=null,gearPreviewCanvas=null,weaponBus,introTime=0,introShowing=true,filmMode='opening',filmAnchor=null,filmVisualStart=0,filmLastShot=-1,sceneIdleDrawn=false,visualOffset=0,gearEditing=false,gearManageOpen=false,gearPage=0,gearNotice='';let settingsTab='Audio',gearDetail=false,gearFilter='all';
 g=createGame(undefined,profile.carried[0],{carried:profile.carried,character:profile.character,stats:gearStats(profile),settings:profile.settings});g.pose=createPose();let previous=snapshotMotion(g);let menuScene=null,menuDrawAt=0,musicView=null,gearPreviewDrawAt=0;
@@ -128,10 +128,10 @@ function showEquipment(host){
  else{
   const current=focusItem(),power=itemPower(selected),worn=current?.id===selected.id;
   uiNode('small',`${rarityNames[selected.rarity]}${selected.isNew?' · NEW':''}`,panel).style.color=rarityColors[selected.rarity];uiNode('h3',weaponLabels[selected.slot]+(selected.upgrade?' +'+selected.upgrade:''),panel);uiNode('p',selected.slot==='armor'?'Fitted protection. More health, less damage taken.':weaponDescriptions[selected.slot],panel);
-  if(current&&current.id!==selected.id)uiNode('small',current.slot===selected.slot?`vs equipped · ${Math.round((power/itemPower(current)-1)*100)>=0?'+':''}${Math.round((power/itemPower(current)-1)*100)}% ${selected.slot==='armor'?'protection rating':'damage'}`:`Replaces ${weaponLabels[current.slot]}`,panel);else if(!current)uiNode('small','Fills your empty slot',panel);
+  if(current&&current.id!==selected.id)uiNode('small',current.slot===selected.slot?`vs equipped · ${Math.round((power/itemPower(current)-1)*100)>=0?'+':''}${Math.round((power/itemPower(current)-1)*100)}% ${selected.slot==='armor'?'protection rating':'damage'}`:`Replaces ${weaponLabels[current.slot]}`,panel);else if(!current&&!profile.carried.includes(selected.slot))uiNode('small','Fills your empty slot',panel);
   const metrics=uiNode('dl','',panel);metrics.className='contractorStats';const stat=(name,value)=>{uiNode('dt',name,metrics);uiNode('dd',String(value),metrics);};
   if(selected.slot==='armor'){stat('Health bonus','+'+Math.round((power-1)*45));stat('Protection',Math.round(Math.min(.35,(power-1)*.2)*100)+'%');}else{const w=weapons[selected.slot];stat('Damage',(w.pellets>1?w.pellets+' × ':'')+Math.round(w.damage*power));stat('Magazine',w.capacity+' rounds');stat('Reload',selected.slot==='shotgun'?'One shell at a time':w.reloadTime+'s');}
-  const actions=uiNode('div','',panel);actions.className='contractorActions';const equip=menuButton(actions,worn?'EQUIPPED':selected.slot==='armor'?'EQUIP VEST':`EQUIP WEAPON ${gearFocus===0?1:2}`,()=>{equipItem(profile,selected.id);if(selected.slot!=='armor')selectCarry(profile,gearFocus===0?0:1,selected.slot);selected.isNew=false;gearNotice=weaponLabels[selected.slot]+' equipped.';saveProfile();tone('equip');showScreen('gear');},'contractorPrimary');equip.disabled=worn;
+  const blockedSlot=selected.slot!=='armor'&&!profile.carried[gearFocus]&&profile.carried.includes(selected.slot);if(blockedSlot)uiNode('small','Already in weapon 1. Choose a different weapon for this slot.',panel);const actions=uiNode('div','',panel);actions.className='contractorActions';const equip=menuButton(actions,blockedSlot?'ALREADY IN WEAPON 1':worn?'EQUIPPED':selected.slot==='armor'?'EQUIP VEST':`EQUIP WEAPON ${gearFocus===0?1:2}`,()=>{equipItem(profile,selected.id);if(selected.slot!=='armor')selectCarry(profile,gearFocus===0?0:1,selected.slot);selected.isNew=false;gearNotice=weaponLabels[selected.slot]+' equipped.';saveProfile();tone('equip');showScreen('gear');},'contractorPrimary');equip.disabled=worn||blockedSlot;
   if(hasClearedContract(profile)||profile.salvage){const cost=upgradeCost(selected),upgrade=menuButton(actions,selected.upgrade===3?'FULLY UPGRADED':`UPGRADE · ${cost} SALVAGE`,()=>{if(upgradeItem(profile,selected.id)){gearNotice=weaponLabels[selected.slot]+' upgraded.';saveProfile();tone('equip');showScreen('gear');}},'contractorUpgrade');upgrade.disabled=selected.upgrade===3||profile.salvage<cost;uiNode('small','+8% base '+(selected.slot==='armor'?'vest rating':'damage'),actions);
    const protectedItem=profile.equipped[selected.slot]===selected.id&&(selected.slot==='armor'||profile.carried.includes(selected.slot));const sell=menuButton(actions,`SELL · +${saleValue(selected)} SALVAGE`,()=>{lastSale=sellGear(profile,selected.id);if(lastSale){selectedGear=null;gearDetail=false;gearNotice='Gear sold. You can undo this sale.';saveProfile();showScreen('gear');}},'contractorSell');sell.disabled=protectedItem||selected.favorite;
   }

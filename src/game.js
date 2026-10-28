@@ -1,14 +1,14 @@
-import{initArena,stepArena}from'./arena.js?v=96c493dffcfa';
-import{stepMallProps,hitMallProp,hitMallFixture}from'./mall-props.js?v=96c493dffcfa';
-import{updateMall,finishMallFilm,enterMallFloor}from'./mall.js?v=96c493dffcfa';
+import{initArena,stepArena}from'./arena.js?v=2af346af25c7';
+import{stepMallProps,hitMallProp,hitMallFixture}from'./mall-props.js?v=2af346af25c7';
+import{updateMall,finishMallFilm,enterMallFloor}from'./mall.js?v=2af346af25c7';
 export function completeMallScene(g,id){finishMallFilm(g,id,makeEnemy);}
-import{bossArmor,damageBoss,updateBoss}from'./boss.js?v=96c493dffcfa';
-import{trainingMission,trainingTargets,updateTraining}from'./training.js?v=96c493dffcfa';
-import{navigateEnemy,crowdSteering,clearRoute}from'./navigation.js?v=96c493dffcfa';
-import{weapons,weaponSlots}from'./weapons.js?v=96c493dffcfa';
-export{weapons}from'./weapons.js?v=96c493dffcfa';
-import{missions,introMission,lobbyMission,quickMission}from'./missions.js?v=96c493dffcfa';
-import{rollItem}from'./progression.js?v=96c493dffcfa';
+import{bossArmor,damageBoss,updateBoss}from'./boss.js?v=2af346af25c7';
+import{trainingMission,trainingTargets,updateTraining}from'./training.js?v=2af346af25c7';
+import{navigateEnemy,crowdSteering,clearRoute}from'./navigation.js?v=2af346af25c7';
+import{weapons,weaponSlots}from'./weapons.js?v=2af346af25c7';
+export{weapons}from'./weapons.js?v=2af346af25c7';
+import{missions,introMission,lobbyMission,quickMission}from'./missions.js?v=2af346af25c7';
+import{rollItem}from'./progression.js?v=2af346af25c7';
 export const enemyTypes={bot:{hp:100,speed:120,damage:18,r:16},walker:{hp:60,speed:55,damage:9,r:17},runner:{hp:38,speed:125,damage:7,r:14},brute:{hp:190,speed:38,damage:18,r:23},spitter:{hp:75,speed:48,damage:8,r:18},boss:{hp:1400,speed:48,damage:22,r:32}};
 function shotCanHit(g,e){return e.hp>0&&(!g.arena||g.arenaMode==='ffa'||e.team!==g.p.team)&&e.entranceState!=='hidden'&&e.entranceState!=='warning'&&(!g.arena||!e.shield);}
 function shotOrigin(g,angle,offset=0){const tx=g.p.x+Math.cos(angle)*23-Math.sin(angle)*offset,ty=g.p.y+Math.sin(angle)*23+Math.cos(angle)*offset,n=Math.ceil(Math.hypot(tx-g.p.x,ty-g.p.y)/2);for(let i=1;i<=n;i++){const x=g.p.x+(tx-g.p.x)*i/n,y=g.p.y+(ty-g.p.y)*i/n;if(blocked(x,y,2,g.cover)||g.enemies.some(e=>shotCanHit(g,e)&&Math.hypot(e.x-x,e.y-y)<e.r+2))return{x,y};}return{x:tx,y:ty};}
