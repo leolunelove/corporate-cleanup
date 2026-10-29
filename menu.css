@@ -220,3 +220,6 @@ body:has(#arena:not(.menuOpen)) header .tag{margin-left:auto!important}
 #quarters .otherActivities{display:block!important;flex:none}
 @media(max-width:700px){#quarters .resultReward .rewardEquip{align-self:center!important;margin:0!important;width:76px!important}}
 .gearNew{position:absolute;right:27px;top:8px;color:#e1bc7a;font:7px Arial;letter-spacing:1px}
+
+/* Two reward facts: XP and contractor level. */
+.menuShell .resultEarnings{grid-template-columns:repeat(2,minmax(0,1fr))!important}
