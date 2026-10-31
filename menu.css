@@ -223,3 +223,15 @@ body:has(#arena:not(.menuOpen)) header .tag{margin-left:auto!important}
 
 /* Two reward facts: XP and contractor level. */
 .menuShell .resultEarnings{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+/* Field intelligence replaces cinematic interruption. The world remains the stage. */
+#fieldTransmission{position:absolute;z-index:80;left:28px;top:92px;width:min(390px,calc(100% - 56px));padding:17px 20px 16px 30px;background:linear-gradient(100deg,rgba(5,16,16,.96),rgba(7,18,19,.88));border:1px solid #688b7959;border-left:2px solid #9bb29b;box-shadow:0 12px 36px #0007;pointer-events:none;color:#d7ded1;animation:fieldLinkIn .35s ease-out}
+.transmissionMeta{display:flex;align-items:center;gap:12px;font:11px monospace;letter-spacing:.12em;color:#c7d4ba}.transmissionMeta small{font-size:10px;color:#8aab9a}.transmissionMeta button{margin-left:auto;pointer-events:auto;background:none;border:0;padding:0 3px;font:24px monospace;color:#a9baac;cursor:pointer;min-width:32px;min-height:32px}
+#fieldTransmission h3{margin:8px 0 9px;font:18px monospace;letter-spacing:.12em;color:#e1e7da}#fieldTransmission p{font:14px/1.55 monospace;margin:0 0 16px;color:#c8d2c8}.transmissionHint{font:9px monospace;letter-spacing:.1em;color:#87a58f}.transmissionSignal{position:absolute;left:12px;top:24px;bottom:24px;display:flex;flex-direction:column;justify-content:space-around}.transmissionSignal i{width:4px;height:4px;background:#9caf8d;opacity:.5;animation:fieldSignal 1.3s ease-in-out infinite alternate}.transmissionSignal i:nth-child(2n){animation-delay:-.7s}.transmissionSignal i:nth-child(3n){animation-delay:-.3s}
+#cinematic.fieldLift{background:none;pointer-events:none}#cinematic.fieldLift .introLetterbox,#cinematic.fieldLift .filmTitle,#cinematic.fieldLift #filmCounter,#cinematic.fieldLift #liftEpisodeTitle,#cinematic.fieldLift #skipIntro{display:none}#cinematic.fieldLift #introCaption{bottom:12%;font:13px monospace;letter-spacing:.08em;padding:10px 18px;background:#071213df;border-left:2px solid #9bb29b;width:max-content;max-width:85%;left:50%;transform:translateX(-50%)}
+@keyframes fieldLinkIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes fieldSignal{to{opacity:1}}
+@media(max-width:700px){#fieldTransmission{top:70px;left:14px;width:calc(100% - 28px);padding:12px 14px 12px 26px;box-sizing:border-box}#fieldTransmission p{font-size:12px;line-height:1.45;margin-bottom:9px}#fieldTransmission h3{font-size:15px;margin:4px 0 7px}.transmissionMeta{gap:8px;font-size:10px}.transmissionMeta small{font-size:9px}.transmissionHint{font-size:8px}}
+@media(prefers-reduced-motion:reduce){#fieldTransmission,.transmissionSignal i{animation:none}}
+#fieldTransmission.hidden{display:none!important}
+#fieldTransmission:not(.hidden)~#lootToast,#fieldTransmission:not(.hidden)~#radio{visibility:hidden}
+@media(max-width:700px){#fieldTransmission{top:auto;bottom:200px}}
+@media(max-width:700px) and (max-height:560px){#fieldTransmission{bottom:115px;width:330px;max-width:calc(100% - 28px)}}
