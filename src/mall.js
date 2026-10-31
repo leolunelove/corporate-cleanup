@@ -1,21 +1,21 @@
-import{createMallProps}from'./mall-props.js?v=d32db389c72c';
-import{planLiftWalk}from'./lift.js?v=d32db389c72c';
-import{navigateEnemy,clearRoute}from'./navigation.js?v=d32db389c72c';
+import{createMallProps}from'./mall-props.js?v=1f5574d52144';
+import{planLiftWalk}from'./lift.js?v=1f5574d52144';
+import{navigateEnemy,clearRoute}from'./navigation.js?v=1f5574d52144';
 // Five linked floors; all combat and companion state remains renderer-independent.
 // Every solid prop is rendered from this exact footprint. Flat paint/litter never blocks.
 const mallProp=(id,kind,x,y,w,h,extra={})=>({id,kind,x,y,w,h,...extra});
 const perimeter=()=>[mallProp('north','wall',20,20,1160,14),mallProp('south','wall',20,726,1160,14,{low:true}),mallProp('west','wall',20,34,14,692),mallProp('east','wall',1166,34,14,692)];
 const arrivalBay=()=>[mallProp('arrival-top','wall',50,298,130,12),mallProp('arrival-bottom','wall',50,450,130,12),mallProp('arrival-back','wall',50,310,12,140)];
 const liftBay=()=>[mallProp('lift-top','wall',1070,298,96,12),mallProp('lift-bottom','wall',1070,450,96,12),mallProp('lift-back','lift',1154,310,12,140)];
-const storefronts=(quiet=false)=>[
+const storefronts=(quiet=false,floor=1)=>[
  mallProp('pharmacy','shop',90,50,235,180,{title:'MERIDIAN PHARMACY',color:'#5c8177'}),
  mallProp('fashion','shop',365,50,235,180,{title:quiet?'AFTER HOURS':'LAST SEASON',color:'#a17870'}),
  mallProp('electronics','shop',640,50,235,180,{title:'VOLT / ELECTRONICS',color:'#6c8098'}),
  mallProp('cafe','shop',90,570,235,140,{title:'NIGHT OWL COFFEE',color:'#a68d63',south:true}),
  mallProp('sports','shop',365,570,235,140,{title:'STRIDE / SPORTS',color:'#71826b',south:true}),
- mallProp('food','shop',640,590,235,120,{title:'FOOD COURT',color:'#9a7861',south:true})];
+ mallProp('food','shop',640,590,235,120,{title:'FOOD COURT',color:'#9a7861',south:true})].map(shop=>({...shop,title:quiet?({pharmacy:'ISOLATION 03',fashion:'OBSERVATION',electronics:'BIO / CONTROL',cafe:'DECONTAMINATION',sports:'WARD B',food:'MEDICAL SUPPLY'}[shop.id]):floor===3?({pharmacy:'THE TABLE / DINER',fashion:'MERIDIAN PICTURES',electronics:'AFTER HOURS / ARCADE',cafe:'NIGHT OWL / 04',sports:'LAST ORDERS',food:'KITCHEN 04'}[shop.id]):shop.title}));
 // Open entrances face the concourse. Walls, displays and counters share render footprints.
-function shopSolids(quiet){return storefronts(quiet).flatMap(s=>{
+function shopSolids(quiet,floor){return storefronts(quiet,floor).flatMap(s=>{
  const front=s.south?s.y:s.y+s.h-8,back=s.south?s.y+s.h-10:s.y;
  return [mallProp(s.id+'-back','wall',s.x,back,s.w,10),
  mallProp(s.id+'-left','wall',s.x,s.y,10,s.h),mallProp(s.id+'-right','wall',s.x+s.w-10,s.y,10,s.h),
@@ -54,11 +54,11 @@ export function mallLayout(index){
  if(index===0)return [...bounds,...liftBay(),...mallGates(index),...[[235,150],[520,150],[850,150],[190,545],[550,545],[870,545]].map(([x,y],i)=>mallProp('car-'+i,'car',x,y,166,74,{color:['#697b79','#6b4d45','#8c8b79'][i%3]})),mallProp('parking-column-a','pillar',465,267,26,26),mallProp('parking-column-b','pillar',815,462,26,26),mallProp('lift-power','power',743,342,28,30),mallProp('paystation','paystation',90,110,40,35),mallProp('entry-planter','planter',1000,80,75,64)];
  if(index===4)return [...bounds,mallProp('vent-a','vent',290,170,150,80),mallProp('vent-b','vent',700,540,170,85),mallProp('roof-access','roofaccess',70,70,150,105)];
  const furniture=index===2?[mallProp('bench-a','bench',270,390,105,27),mallProp('planter-a','planter',900,470,68,68)]:[mallProp('kiosk','kiosk',390,340,135,75,{title:index===3?'MERIDIAN DIRECTORY':'PHONE REPAIR'}),mallProp('bench-a','bench',180,460,115,27),mallProp('bench-b','bench',730,300,115,27),mallProp('planter-a','planter',620,470,68,68)];
- return [...bounds,...mallGates(index),...shopSolids(index===2),...concourseClutter(),...furniture,...(index===1?[...securityRoom(),...gunStore()]:liftBay())];
+ return [...bounds,...mallGates(index),...shopSolids(index===2,index),...concourseClutter(),...furniture,...(index===1?[...securityRoom(),...gunStore()]:liftBay())];
 }
-const mallSectionNames=[['PARKING ENTRANCE','PARKING AISLES','MALL SERVICE LIFT'],['WEST CONCOURSE','RETAIL GALLERIES','SECURITY / KESSLER ARMS'],['THE HOST'],['UPPER WEST WING','FOOD COURT','ROOFTOP ACCESS']];
-const names=['PARKING / SERVICE LIFT','LEVEL 2 / RETAIL CONCOURSE','LEVEL 3 / THE HOST','LEVEL 4 / UPPER GALLERIES','ROOF / EXTRACTION'];
-export function mallFloor(index){return {id:'mall-'+index,operationId:'mall',mall:true,floorIndex:index,name:'DEAD MALL',location:names[index],mode:'mall',entrances:mallEntrances(index),powerControl:index===0?{x:757,y:405}:null,shops:index>0&&index<4?storefronts(index===2):[],brief:'Five floors. One extraction. Keep your gear and health between floors.',start:{x:110,y:380},targets:[{x:index===1?900:980,y:index===1?240:380}],extract:{x:1090,y:index===1?620:380},boss:{x:720,y:index===0?420:350},holdTime:0,cover:mallLayout(index),color:index===0?'#555d59':'#5d5950',accent:'#d0b880',rewardSlots:['shotgun','dualPistols','armor'],rewardLabel:'Sidearms & survival gear'};}
+const mallSectionNames=[['PARKING ENTRANCE','PARKING AISLES','MALL SERVICE LIFT'],['WEST CONCOURSE','RETAIL GALLERIES','SECURITY / KESSLER ARMS'],['QUARANTINE / THE HOST'],['FOOD HALL ENTRANCE','CINEMA CONCOURSE','ROOFTOP ACCESS']];
+const names=['PARKING / SERVICE LIFT','LEVEL 2 / RETAIL CONCOURSE','LEVEL 3 / QUARANTINE','LEVEL 4 / FOOD HALL & CINEMA','ROOF / EXTRACTION'];
+export function mallFloor(index){return {id:'mall-'+index,operationId:'mall',mall:true,floorIndex:index,name:'DEAD MALL',location:names[index],mode:'mall',entrances:mallEntrances(index),powerControl:index===0?{x:757,y:405}:null,shops:index>0&&index<4?storefronts(index===2,index):[],brief:'Five floors. One extraction. Keep your gear and health between floors.',start:{x:110,y:380},targets:[{x:index===1?900:980,y:index===1?240:380}],extract:{x:index===4?1040:1090,y:index===1?620:380},boss:{x:720,y:index===0?420:350},holdTime:0,cover:mallLayout(index),color:index===0?'#555d59':'#5d5950',accent:'#d0b880',rewardSlots:['shotgun','dualPistols','armor'],rewardLabel:'Sidearms & survival gear'};}
 export function enterMallFloor(g,index,makeEnemy){g.mallEntryPending=false;g.mallFloor=index;g.mission=mallFloor(index);g.cover=[...g.mission.cover];g.mallProps=createMallProps(index);g.brokenProps=[];g.fixtureHealth={};g.propSerial=0;g.p.x=110;g.p.y=380;g.p.vx=g.p.vy=0;g.enemies=[];g.shots=[];g.hostileShots=[];g.reload=0;g.swap=0;g.pump=0;g.dodge=0;g.fx=[];g.impacts=[];g.surfaceMarks=[];g.bodies=[];g.bloodStains=[];g.loot.forEach(d=>g.bag.push(d.item));g.loot=[];g.lockTarget=null;g.navigation?.clear();g.mallSpawned=0;g.mallClock=0;g.mallPower=index!==0;g.mallPowerProgress=0;g.mallEntranceSerial=0;g.mallRescued=false;g.mallSector=0;g.mallAwaitingEntry=false;g.interact=0;g.phase='mall';g.bossSpawned=false;g.bossDefeated=false;g.mallWaveClock=0;g.companion=null;if(index===2){g.p.x=580;g.p.y=350;g.companion={r:16,x:720,y:350,face:Math.PI,hp:100,vx:0,vy:0};g.storyBeat='mall-transform';}else if(index!==4){g.mallSector=0;for(let sector=0;sector<3;sector++)placeMallSection(g,sector,makeEnemy);if(index===1)g.enemies.push({...makeEnemy('brute',1060,620,g.tier,.44),dormant:true,rescueGuard:true},{...makeEnemy('runner',1090,550,g.tier,.6),dormant:true,rescueGuard:true});spawnMallSection(g,makeEnemy); }if(index===4)g.events.push('objective');}
 
 function placeMallSection(g,sector,makeEnemy){const floor=g.mallFloor,portals=mallEntrances(floor).filter(p=>p.sector===sector);
@@ -99,4 +99,4 @@ export function mallInteraction(g){
 }
 
 export function mallLocation(g){return (g.mallFloor===4?'ROOFTOP':mallSectionNames[g.mallFloor]?.[g.mallSector??0]||'MERIDIAN GALLERIA')+(g.mallEndFloor===0?' · FIRST EXTRACTION':' · '+((g.mallFloor??0)+1)+' / 5');}
-export function mallRadio(g){if(g.mallEntryPending)return 'Dispatch: Take a breath. Move out when you’re ready.';if(g.mallFloor===4)return g.mallClock<60?'Dispatch: Stay mobile. Hold until the helicopter arrives.':'Dispatch: Pilot has visual. Get to the lit landing zone.';if(g.mallFloor===2)return g.bossDefeated?'Dispatch: Recover what you can. The next lift is ready.':'Dispatch: Break its armor. Move when it commits to an attack.';if(g.mallFloor===1&&g.mallRescued)return 'Survivor: I’m with you. The gun store has a service lift.';if(g.mallAwaitingEntry)return 'Dispatch: Shutter released. Follow the open route.';return ['Dispatch: Clear a path through parking. The service lift is ahead.','Dispatch: Search security. Someone is still alive in there.',null,'Dispatch: Clear the upper wing. Roof access is on the far side.'][g.mallFloor]||'';}
+export function mallRadio(g){if(g.mallEntryPending)return 'Dispatch: Take a breath. Move out when you’re ready.';if(g.mallFloor===4)return g.mallClock<60?'Dispatch: Stay mobile. Hold until the helicopter arrives.':'Dispatch: Pilot has visual. Get to the lit landing zone.';if(g.mallFloor===2)return g.bossDefeated?'Dispatch: Recover what you can. The next lift is ready.':'Dispatch: Break its armor. Move when it commits to an attack.';if(g.mallFloor===1&&g.mallRescued)return 'Survivor: I’m with you. The gun store has a service lift.';if(g.mallAwaitingEntry)return 'Dispatch: Shutter released. Follow the open route.';return ['Dispatch: Clear a path through parking. The service lift is ahead.','Dispatch: Search security. Someone is still alive in there.',null,'Dispatch: Cross the food hall and cinema concourse. Roof access is on the far side.'][g.mallFloor]||'';}
