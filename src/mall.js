@@ -1,6 +1,6 @@
-import{createMallProps}from'./mall-props.js?v=1f5574d52144';
-import{planLiftWalk}from'./lift.js?v=1f5574d52144';
-import{navigateEnemy,clearRoute}from'./navigation.js?v=1f5574d52144';
+import{createMallProps}from'./mall-props.js?v=f54029b71d60';
+import{planLiftWalk}from'./lift.js?v=f54029b71d60';
+import{navigateEnemy,clearRoute}from'./navigation.js?v=f54029b71d60';
 // Five linked floors; all combat and companion state remains renderer-independent.
 // Every solid prop is rendered from this exact footprint. Flat paint/litter never blocks.
 const mallProp=(id,kind,x,y,w,h,extra={})=>({id,kind,x,y,w,h,...extra});
@@ -91,7 +91,7 @@ export function mallInteraction(g){
  if(g.mallFloor===0&&g.mallSector===1&&!g.mallPower){target=g.mission.powerControl;label='RESTORE LIFT POWER';progress=g.mallPowerProgress||0;duration=1.25;radius=65;}
  else if(g.mallFloor===1&&g.mallSector===2&&!g.mallRescued){target=g.mission.targets[0];label='OPEN SECURITY ROOM';progress=g.interact||0;}
  else if((g.mallFloor===2&&g.bossDefeated&&g.time>=(g.bossDeathUntil||0))||g.mallSector===2&&(g.mallFloor!==1||g.mallRescued)){
- target=g.mission.extract;progress=g.mallLift||0;label=g.routeStep!=null&&g.mallFloor>=g.mallEndFloor?'EXTRACT':['BOARD TO RETAIL','BOARD TO ISOLATION','BOARD TO UPPER GALLERIES','BOARD TO ROOF'][g.mallFloor];
+ target=g.mission.extract;progress=g.mallLift||0;label=g.routeStep!=null&&g.mallFloor>=g.mallEndFloor?'EXTRACT':['BOARD TO RETAIL','BOARD TO ISOLATION','BOARD TO FOOD HALL','BOARD TO ROOF'][g.mallFloor];
  }
  if(!target)return null;
  if(g.mallFloor===1&&g.mallRescued&&(!g.companion||Math.hypot(g.companion.x-target.x,g.companion.y-target.y)>=115))return{target,label:'WAIT FOR SURVIVOR',progress:0,close:false};

@@ -144,3 +144,11 @@ body:has(#cinematic:not(.hidden)) header{visibility:hidden}#overlay.resultsFlow:
 @media(max-width:700px){.lobbyMenu #overlay:not(.hidden){align-items:center;justify-content:flex-end;padding:50px 24px 30px;background:linear-gradient(0deg,#08110ffb 0%,#08110fe8 29%,#08110f11 63%,transparent)!important}.lobbyMenu #title{font-size:34px!important}.lobbyMenu #quarters.menuContent{width:100%;text-align:center}.lobbyMenu .lobbyActions{justify-content:center}.lobbyMenu .lobbyActions button{min-width:130px}.lobbyMenu #start{align-self:center;width:100%;min-width:0}.lobbyMenu #quarters>button{display:none}.lobbyMenu #quarters>p{margin:4px 0!important}}
 
 #liftEpisodeTitle{position:absolute;pointer-events:none;opacity:0;left:8%;top:29%;width:40%;text-align:left;color:#e3dcc6;text-shadow:0 3px 22px #0008}#liftEpisodeTitle small{font:10px monospace;letter-spacing:3px}#liftEpisodeTitle strong{display:block;font:700 clamp(44px,7vw,88px)/.88 Impact,'Arial Narrow',sans-serif;letter-spacing:5px;margin:24px 0}#liftEpisodeTitle span{font:10px monospace;letter-spacing:2px}.liftRide .filmTitle{display:none}.liftRide #introCaption{background:none;font-size:10px;letter-spacing:3px;color:#d0c7a8}@media(max-width:700px){#liftEpisodeTitle{left:7%;width:50%;top:23%}#liftEpisodeTitle small,#liftEpisodeTitle span{font-size:8px;letter-spacing:1px}#liftEpisodeTitle strong{font-size:50px}}
+
+/* A failed download remains recoverable without an automatic reload loop. */
+#boot button{margin-top:20px;min-height:44px;border:1px solid #d49a68;background:#d88445;color:#10171b;padding:12px 28px;font:700 12px Arial,sans-serif;letter-spacing:1px}
+#boot button[hidden]{display:none}
+#boot[data-state=failed] i{animation:none;opacity:.25}
+#boot span{max-width:340px;padding:0 20px;text-align:center;line-height:1.6}
+.bootFallback{position:fixed;z-index:10001;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;background:#080e12;color:#d9e2df;text-align:center;font:14px/1.6 Arial,sans-serif}
+.bootFallback strong{font:32px Impact,Arial,sans-serif;letter-spacing:2px}

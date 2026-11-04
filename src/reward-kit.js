@@ -1,4 +1,4 @@
-import{equipItem,selectCarry,itemPower}from'./progression.js?v=1f5574d52144';
+import{equipItem,selectCarry,itemPower}from'./progression.js?v=f54029b71d60';
 // Only the explicitly earned first-clear kit is eligible; no rewards are created here.
 export function starterRewardKit(profile,ids){const earned=new Set(ids);return ['dualPistols','shotgun','armor'].map((slot,index)=>{const item=profile.items.filter(i=>earned.has(i.id)&&i.slot===slot).sort((a,b)=>itemPower(b)-itemPower(a))[0];return item?{id:item.id,slot,carryIndex:index<2?index:null}:null;}).filter(Boolean);}
 export function rewardKitReady(profile,kit){return kit.length>0&&kit.every(i=>profile.equipped[i.slot]===i.id&&(i.carryIndex===null||profile.carried[i.carryIndex]===i.slot));}

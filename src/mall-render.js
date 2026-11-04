@@ -71,7 +71,7 @@ export function buildMallEnvironment(T,g,{box,cylinder,label,glow}){
  if(!clean){for(let i=0;i<24;i++){cx.fillStyle='#141e1918';cx.fillRect(rnd()*256,220+rnd()*36,2+rnd()*18,rnd()*16);}}
  const map=new T.CanvasTexture(cv);map.colorSpace=T.SRGBColorSpace;const mat=new T.MeshStandardMaterial({map,roughness:kind==='tile'?.32:kind==='metal'?.55:.84,metalness:kind==='metal'?.65:.05,bumpMap:Object.assign(map.clone(),{colorSpace:T.NoColorSpace}),bumpScale:kind==='stone'?.12:.06});surfaceCache.set(kind,mat);return mat;}
  function clad(mesh,kind){mesh.material=surface(kind);return mesh;}
- function readableAroundActors(mesh,width){mesh.material=mesh.material.clone();mesh.material.transparent=true;mesh.material.depthWrite=false;group.userData.actorOccluders??=[];group.userData.actorOccluders.push({mesh,width,opacity:mesh.material.opacity});return mesh;}
+ function readableAroundActors(mesh,width){mesh.material=mesh.material.clone();mesh.userData.mallActorOccluder=true;group.userData.actorOccluders??=[];group.userData.actorSight??={ray:new T.Ray(),direction:new T.Vector3(),right:new T.Vector3(),hit:new T.Vector3()};group.userData.actorOccluders.push({mesh,opacity:mesh.material.opacity,transparent:mesh.material.transparent,depthWrite:mesh.material.depthWrite,shadow:mesh.castShadow,bounds:new T.Box3(),cached:false});return mesh;}
  function retailPanel(parent,text,sub,x,y,z,w,h,color,dark='#172a28'){
   const cv=document.createElement('canvas');cv.width=768;cv.height=192;const cx=cv.getContext('2d');cx.fillStyle=dark;cx.fillRect(0,0,768,192);cx.fillStyle=color;cx.fillRect(18,22,4,148);cx.textAlign='center';cx.fillStyle=color;cx.font='500 64px '+(text==='NIGHT OWL'?'serif':'sans-serif');cx.fillText(text,390,92,690);cx.font='18px sans-serif';cx.fillStyle='#d2cebb';cx.fillText(sub,390,141,690);const map=new T.CanvasTexture(cv);map.colorSpace=T.SRGBColorSpace;const mesh=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map,emissive:'#ffffff',emissiveMap:map,emissiveIntensity:clean?.2:.12,roughness:.55,side:T.DoubleSide}));mesh.position.set(x,y,z);mesh.rotation.x=-.5;mesh.name='retail identity / '+text;parent.add(mesh);readableAroundActors(mesh,w);return mesh;
  }
@@ -263,11 +263,27 @@ function makeMallCivilian(T,parent,person,{box,cylinder}){
  let cart;if(person.cleaner){cart=new T.Group();root.add(cart);box(cart,25,12,0,22,23,18,'#638d87');box(cart,25,23,0,25,3,20,'#b7c2ac');for(const dz of [-8,8])cylinder(cart,25,2,dz,3,3,'#303e39');box(cart,14,27,0,2,14,20,'#7f9584');const mop=new T.Group();root.add(mop);mop.position.set(18,1,10);const shaft=cylinder(mop,-5,20,0,1,44,'#b5a990');shaft.rotation.z=-.25;box(mop,0,0,0,14,2,8,'#b7b39d');cart.userData.mop=mop;}
  let bag;if(person.bag){bag=box(arms[1],1,-20,0,8,11,7,'#a38b62');box(arms[1],1,-14,0,5,3,2,'#6d6049');}if(person.phone)box(elbows[0],2,-8,0,4,1,6,'#303c3c');return {root,torso,head,hips,arms,legs,knees,feet,elbows,cart,bag};
 }
-export function animateMallLife(group,g){
- const dialogue=['mall-rescue','mall-transform'].includes(g.filmStory);
-
- // Fade signage close to an actor instead of concealing the body or its windup.
- for(const {mesh,width,opacity}of group.userData.actorOccluders||[]){const at=mesh.position,near=p=>Math.abs(p.x-at.x)<width/2+24&&Math.abs(p.y-at.z)<72,blocked=near(g.p)||(g.enemies||[]).some(e=>e.hp>0&&!e.dormant&&near(e)),target=dialogue?opacity*.12:blocked?opacity*.16:opacity;mesh.material.opacity=g.reducedMotion?target:mesh.material.opacity+(target-mesh.material.opacity)*.18;}
+// Camera-parallel visibility samples use the real world-space sign bounds, not
+// an actor's proximity to a whole shop. All vectors and bounds are reused.
+function mallSignBlocksActor(entry,actor,sight){
+ if(!actor)return false;const radius=Math.min(10,(actor.r||16)*.45),top=actor.type==='boss'?70:50;
+ for(let height=18;height<=top;height+=16)for(let side=-1;side<=1;side++){
+  sight.ray.origin.set(actor.x+sight.right.x*radius*side,height,actor.y+sight.right.z*radius*side);
+  if(sight.ray.intersectBox(entry.bounds,sight.hit)&&sight.hit.distanceToSquared(sight.ray.origin)>1)return true;
+ }
+ return false;
+}
+export function animateMallLife(group,g,view){
+ const sight=group.userData.actorSight;
+ if(sight&&view){
+  view.getWorldDirection(sight.direction).negate();sight.ray.direction.copy(sight.direction);sight.right.set(sight.direction.z,0,-sight.direction.x).normalize();
+  for(const entry of group.userData.actorOccluders||[]){
+   const {mesh,opacity}=entry;if(!entry.cached){mesh.updateWorldMatrix(true,false);entry.bounds.setFromObject(mesh);entry.cached=true;}
+   let blocked=mesh.visible&&(mallSignBlocksActor(entry,g.p,sight)||mallSignBlocksActor(entry,g.companion,sight));
+   if(mesh.visible&&!blocked)for(const enemy of g.enemies||[]){if(enemy.hp<=0||enemy.dormant||enemy.entranceState==='hidden'||enemy.entranceState==='warning')continue;if(mallSignBlocksActor(entry,enemy,sight)){blocked=true;break;}}
+   const target=blocked?opacity*.2:opacity,mat=mesh.material;mat.opacity=g.reducedMotion?target:mat.opacity+(target-mat.opacity)*.18;const fading=Math.abs(mat.opacity-opacity)>.002;mat.transparent=entry.transparent||fading;mat.depthWrite=fading?false:entry.depthWrite;mesh.castShadow=entry.shadow&&mat.opacity>opacity*.7;
+  }
+ }
  // A nearby strike briefly sags a shop light, never a rapid screen-wide strobe.
  if(g.mission.mall&&!g.mission.beforeOutbreak)group.traverse(mesh=>{if(!mesh.userData.impactReactive)return;let dip=0;if(g.settings?.flashes!==false&&!g.reducedMotion){const point=mesh.getWorldPosition(mesh.position.clone());for(const impact of g.impacts||[]){const distance=Math.hypot(impact.x-point.x,impact.y-point.z);if(distance<110)dip=Math.max(dip,.28*(1-distance/110));}}mesh.intensity=mesh.userData.restIntensity*(1-dip);});
 
