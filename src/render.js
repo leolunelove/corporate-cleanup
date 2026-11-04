@@ -1,17 +1,17 @@
-import{weaponLabels}from'./weapons.js?v=8de9f4d890c9';
-import{mallInteraction}from'./mall.js?v=8de9f4d890c9';
-import{edgeLook}from'./camera-edge.js?v=8de9f4d890c9';
-import{buildDistrictEnvironment}from'./district-render.js?v=8de9f4d890c9';
-import{buildArenaEnvironment}from'./arena-render.js?v=8de9f4d890c9';
-import{heroMaterial,upgradeHeroMaterial,normalizeHeroColors,getHeroSurfaces}from'./hero-surfaces.js?v=8de9f4d890c9';
-import{surfaceAt}from'./soundscape.js?v=8de9f4d890c9';
-import{buildMallEnvironment,animateMallLife}from'./mall-render.js?v=8de9f4d890c9';
-import{createEnemySkin,updateEnemySkin}from'./enemy-rig.js?v=8de9f4d890c9';
-import{stabilizeSoldierLimb,createSoldierSkin,updateSoldierSkin,disposeSoldierSkin,soldierMaterial}from'./soldier-rig.js?v=8de9f4d890c9';
-import{navigationHint}from'./missions.js?v=8de9f4d890c9';
-import{cinematicActors}from'./cinematic.js?v=8de9f4d890c9';
-import{cover}from'./game.js?v=8de9f4d890c9';
-import{damp,reloadPose,pumpPose,weaponFeel,dashPose,gaitFoot,weaponSway}from'./motion.js?v=8de9f4d890c9';
+import{weaponLabels}from'./weapons.js?v=cf3942406de4';
+import{mallInteraction}from'./mall.js?v=cf3942406de4';
+import{edgeLook}from'./camera-edge.js?v=cf3942406de4';
+import{buildDistrictEnvironment}from'./district-render.js?v=cf3942406de4';
+import{buildArenaEnvironment}from'./arena-render.js?v=cf3942406de4';
+import{heroMaterial,upgradeHeroMaterial,normalizeHeroColors,getHeroSurfaces}from'./hero-surfaces.js?v=cf3942406de4';
+import{surfaceAt}from'./soundscape.js?v=cf3942406de4';
+import{buildMallEnvironment,animateMallLife}from'./mall-render.js?v=cf3942406de4';
+import{createEnemySkin,updateEnemySkin}from'./enemy-rig.js?v=cf3942406de4';
+import{stabilizeSoldierLimb,createSoldierSkin,updateSoldierSkin,disposeSoldierSkin,soldierMaterial}from'./soldier-rig.js?v=cf3942406de4';
+import{navigationHint}from'./missions.js?v=cf3942406de4';
+import{cinematicActors}from'./cinematic.js?v=cf3942406de4';
+import{cover}from'./game.js?v=cf3942406de4';
+import{damp,reloadPose,pumpPose,weaponFeel,dashPose,gaitFoot,weaponSway}from'./motion.js?v=cf3942406de4';
 // Presentation uses WebGL; collision and missions remain in the independent simulation.
 const T=globalThis.THREE;
 export const camera={x:600,y:350,zoom:1.5,shake:0,edgeX:0,edgeY:0,swayX:0,swayY:0,pump:0,pumpCenter:{x:.5,y:.5}};
@@ -129,7 +129,7 @@ let companionActor;
 const hero=makeActor(true),enemyActors=[],arenaActors=[],bodyActors=[];
 function segment(mesh,ax,ay,az,bx,by,bz){let a=new T.Vector3(ax,ay,az),b=new T.Vector3(bx,by,bz),delta=b.clone().sub(a);mesh.position.copy(a.add(b).multiplyScalar(.5));mesh.scale.set(3,delta.length(),3);mesh.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),delta.normalize())}
 
-function armToHand(actor,index,hand,relaxed=false){const side=index===1?1:-1,player=!!actor.soldierSkin&&!actor.enemySkin,S=new T.Vector3(player?5:8,player?32.5:34,side*(player?7.1:8)),H=hand.clone(),direction=H.clone().sub(S),distance=Math.max(.01,direction.length());direction.normalize();const upperLength=player?12.9:14,lowerLength=player?12.4:15,along=(upperLength*upperLength-lowerLength*lowerLength+distance*distance)/(2*distance),height=Math.sqrt(Math.max(0,upperLength*upperLength-along*along)),bend=new T.Vector3(relaxed?-.45:player?.10:-.15,player?-.85:-1,side*(relaxed?.06:player?.45:.25));bend.addScaledVector(direction,-bend.dot(direction)).normalize();const elbow=S.clone().addScaledVector(direction,along).addScaledVector(bend,height),upper=index===1?actor.arm1:actor.arm2,lower=index===1?actor.lowerArm1:actor.lowerArm2,joint=index===1?actor.elbow1:actor.elbow2;segment(upper,S.x,S.y,S.z,elbow.x,elbow.y,elbow.z);segment(lower,elbow.x,elbow.y,elbow.z,H.x,H.y,H.z);if(player){
+function armToHand(actor,index,hand,relaxed=false,elbowFlare=.45){const side=index===1?1:-1,player=!!actor.soldierSkin&&!actor.enemySkin,S=new T.Vector3(player?5:8,player?32.5:34,side*(player?7.1:8)),H=hand.clone(),direction=H.clone().sub(S),distance=Math.max(.01,direction.length());direction.normalize();const upperLength=player?12.9:14,lowerLength=player?12.4:15,along=(upperLength*upperLength-lowerLength*lowerLength+distance*distance)/(2*distance),height=Math.sqrt(Math.max(0,upperLength*upperLength-along*along)),bend=new T.Vector3(relaxed?-.45:player?.10:-.15,player?-.85:-1,side*(relaxed?.06:player?elbowFlare:.25));bend.addScaledVector(direction,-bend.dot(direction)).normalize();const elbow=S.clone().addScaledVector(direction,along).addScaledVector(bend,height),upper=index===1?actor.arm1:actor.arm2,lower=index===1?actor.lowerArm1:actor.lowerArm2,joint=index===1?actor.elbow1:actor.elbow2;segment(upper,S.x,S.y,S.z,elbow.x,elbow.y,elbow.z);segment(lower,elbow.x,elbow.y,elbow.z,H.x,H.y,H.z);if(player){
  // Both sleeve segments use the elbow's actual hinge plane. Projecting a
  // fixed forward axis becomes singular when an arm aims along that axis.
  const hinge=new T.Vector3().crossVectors(elbow.clone().sub(S),H.clone().sub(elbow)).multiplyScalar(side);
@@ -142,7 +142,7 @@ function solveWeaponRig(actor,g,weapon,rp){const sockets=weaponSockets[weapon]||
  const sway=weaponSway(p,Math.hypot(g.p.vx||0,g.p.vy||0)),aimComp=Math.max(p.ads||0,actor.aimStance||0);actor.gun.rotation.set(weapon==='shotgun'&&g.reload>0?Math.sin(rp.t*Math.PI)*.1:0,-rp.tilt+(p.recoilYaw||0)+sway.yaw,recoil*feel.lift+swap*.25-lower*.24-dash.brace+sway.roll-actor.torso.rotation.z*aimComp*.65);fore.sub(grip).multiplyScalar(.78).add(grip);mag.sub(grip).multiplyScalar(.78).add(grip);actor.gun.rotation.x-=actor.torso.rotation.x*aimComp*.65;const rotated=grip.clone().applyEuler(actor.gun.rotation);actor.gun.position.copy(grip).sub(rotated);actor.gun.position.x-=recoil*feel.travel;actor.gun.position.y+=sway.lift;actor.gun.position.y-=swap*12+lower*8+dash.pulse*2+(p.run||0)*4;actor.gun.position.x-=(p.run||0)*2;actor.gun.rotation.z-=(p.run||0)*(.12+Math.sin(p.gait||0)*.025);
  const aimNow=g.visualTime??g.time??0,aimDt=actor.aimPoseTime===undefined?0:Math.max(0,Math.min(.05,aimNow-actor.aimPoseTime)),aimTarget=Math.max(0,Math.min(1,Math.max(p.ads||0,g.fireHeld||g.cool>0?1:0)))*(g.reload>0?0:1)*(1-swap)*(1-dash.pulse)*(1-lower),aimBlend=aimDt>0?1-Math.exp(-10*aimDt):1;actor.aimPoseTime=aimNow;actor.aimStance=(actor.aimStance??aimTarget)+(aimTarget-(actor.aimStance??aimTarget))*aimBlend;const pistolAim=['pistol','heavyPistol','dualPistols'].includes(weapon);actor.gun.position.add(new T.Vector3(pistolAim?14:-1,pistolAim?10:8,pistolAim?1.2:-3).multiplyScalar(actor.aimStance));if(pistolAim){actor.gun.position.x+=4*(1-actor.aimStance);actor.gun.position.y+=2*(1-actor.aimStance);}actor.head.rotation.z=-actor.aimStance*(pistolAim?.035:.07)-actor.torso.rotation.z*.55;actor.head.rotation.x=-actor.torso.rotation.x*.5;if(weapon==='dualPistols'&&g.reload>0){const dip=Math.sin(rp.t*Math.PI);actor.gun.position.y-=dip*9;actor.gun.position.x-=dip*6;}actor.gun.updateMatrix();const right=grip.clone().applyMatrix4(actor.gun.matrix),held=fore.clone();if(weapon==='shotgun')held.x-=pumpPose(g.pump||0)*.78;held.applyMatrix4(actor.gun.matrix);let left=held.clone();
  if(g.reload>0&&weapon!=='dualPistols'){const t=rp.t,port=mag.applyMatrix4(actor.gun.matrix).sub(new T.Vector3(weapon==='shotgun'?.8:1,-1.3,.35).applyQuaternion(actor.gun.quaternion.clone().multiply(new T.Quaternion().setFromEuler(new T.Euler(.12,0,-.12))))),belt=reloadPouchPoint(actor),blend=(a,b,u)=>a.clone().lerp(b,Math.max(0,Math.min(1,u*u*u*(u*(u*6-15)+10))));if(weapon==='shotgun'){left=t<.25?blend(held,belt,t/.25):t<.65?blend(belt,port,(t-.25)/.4):t<.83?port.clone().add(new T.Vector3(Math.sin((t-.65)/.18*Math.PI)*.8,.4,0)):blend(port,held,(t-.83)/.17);}else{const bolt=new T.Vector3(weapon==='rifle'?21:20,31,-5).sub(grip).multiplyScalar(.78).add(grip).applyMatrix4(actor.gun.matrix);left=t<.18?blend(held,port,t/.18):t<.4?blend(port,belt,(t-.18)/.22):t<.55?belt:t<.78?blend(belt,port,(t-.55)/.23):t<.86?port:t<.93?blend(port,bolt,(t-.86)/.07):blend(bolt,held,(t-.93)/.07);}}
- actor.hand1.position.copy(left);actor.hand2.position.copy(right);armToHand(actor,1,left);armToHand(actor,2,right);actor.hand2.quaternion.copy(actor.gun.quaternion).multiply(new T.Quaternion().setFromEuler(new T.Euler(-Math.PI/2,0,0)));
+ actor.hand1.position.copy(left);actor.hand2.position.copy(right);const elbowFlare=weapon==='dualPistols'?.45-.23*actor.aimStance:.45;armToHand(actor,1,left,false,elbowFlare);armToHand(actor,2,right,false,elbowFlare);actor.hand2.quaternion.copy(actor.gun.quaternion).multiply(new T.Quaternion().setFromEuler(new T.Euler(-Math.PI/2,0,0)));
  // The support palm cups the gun; reload wrist rotation eases at both endpoints.
  const sidearm=['pistol','heavyPistol','dualPistols'].includes(weapon),support=new T.Quaternion().setFromEuler(new T.Euler(sidearm?Math.PI/2:-.2,sidearm?-.15:-Math.PI/2,sidearm?.08:.1)),working=new T.Quaternion().setFromEuler(new T.Euler(Math.PI/2,0,-.12)),smooth=u=>{u=Math.max(0,Math.min(1,u));return u*u*u*(u*(u*6-15)+10);},handling=g.reload>0?smooth(rp.t/.18)*smooth((1-rp.t)/.22):0;
  actor.hand1.quaternion.copy(actor.gun.quaternion).multiply(support.slerp(working,handling));const handNow=g.visualTime??g.time??0,handDt=actor.handPoseTime===undefined?0:Math.max(0,Math.min(.05,handNow-actor.handPoseTime)),handBlend=handDt>0?1-Math.exp(-22*handDt):1;actor.handPoseTime=handNow;if(!actor.supportGripRotation)actor.supportGripRotation=actor.hand1.quaternion.clone();else{const wristAngle=actor.supportGripRotation.angleTo(actor.hand1.quaternion),wristBlend=handDt>0?Math.min(handBlend,12*handDt/Math.max(1e-6,wristAngle)):handBlend;actor.supportGripRotation.slerp(actor.hand1.quaternion,wristBlend);}actor.hand1.quaternion.copy(actor.supportGripRotation);if(weapon==='dualPistols')actor.hand1.quaternion.copy(actor.gun.quaternion).multiply(new T.Quaternion().setFromEuler(new T.Euler(Math.PI/2,0,0)));

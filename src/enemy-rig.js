@@ -1,5 +1,5 @@
 import{enemyAssets}from'./enemy-asset.js';
-import{createSoldierSkin,updateSoldierSkin}from'./soldier-rig.js?v=8de9f4d890c9';
+import{createSoldierSkin,updateSoldierSkin}from'./soldier-rig.js?v=cf3942406de4';
 // Each actor owns its palette; baked geometry and paint are shared across the cast.
 export function createEnemySkin(actor,type){
  if(!enemyAssets[type])type='walker';
