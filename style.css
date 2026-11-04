@@ -218,3 +218,60 @@ header .brand span{color:#8d9d9e}
 .touchActions .touchINTERACT{background:#364e43eb;border-color:#a5b99d;color:#e3ead9}
 @media(max-width:700px){header button{padding:8px 10px;font-size:9px;letter-spacing:.6px;min-height:42px}header{gap:8px}}
 @media(prefers-reduced-motion:reduce){header button,.touchPad,.touchPad i,.touchActions button{transition:none}}
+
+/* Worn field instruments. Texture is printed into the housings, never across the world. */
+body>header{background:linear-gradient(180deg,#0d110de8,#0d110d66 66%,transparent)}
+body>header .brand{color:var(--field-paper,#e5d7a6);text-shadow:0 1px 2px #000b}
+body>header .brand span{color:var(--field-muted,#b2ad8b)}
+body:has(#arena:not(.menuOpen))>header .tag{color:var(--field-muted,#b2ad8b)}
+body>header button{color:var(--field-paper,#e5d7a6);border-color:var(--field-line,#a4a26a55);background:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(180deg,#2c3024e8,#171d16eb);background-size:100% 100%,150px 150px,auto;box-shadow:inset 0 1px #e5d7a610,inset 0 -2px #03060377;font-family:'IBM Plex Mono',monospace;font-weight:500}
+body>header button:hover{color:#f3e9c4;border-color:var(--field-accent,#d1ad5a);background-image:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(180deg,#3c412be8,#222b1deb)}
+body>header button:focus-visible{outline-color:var(--field-paper,#e5d7a6);outline-offset:-3px}
+
+#arena #combatHud{background:none!important}
+#arena #combatHud>div{position:relative;isolation:isolate}
+#arena #combatHud>div::before{content:"";position:absolute;inset:-8px -12px;z-index:-1;pointer-events:none;background:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(135deg,#242a1eeb,#121810e3);background-size:100% 100%,150px 150px,auto;border-top:1px solid #c5bc7d55;box-shadow:inset 0 -1px #878a5940,0 3px 10px #0004}
+#arena #combatHud strong{font-family:var(--field-heading,'Barlow Condensed',sans-serif)!important;color:var(--field-paper,#e5d7a6)!important;text-shadow:0 1px 2px #000a;font-weight:600!important}
+#arena #combatHud small{font-family:'IBM Plex Mono',monospace!important;color:var(--field-muted,#b2ad8b)!important}
+#arena #combatHud span{color:var(--field-muted,#b2ad8b)!important}
+#arena #combatHud .meter{background:#070d09;box-shadow:0 1px #b8b58126,inset 0 1px #0008}
+#arena #combatHud .meter i{background:repeating-linear-gradient(90deg,transparent 0 12px,#11180d99 12px 14px),linear-gradient(180deg,#d7c98b,#a8b376)}
+
+#gameTop .objective{background:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(110deg,#22281df2,#131a12e3)!important;background-size:100% 100%,150px 150px,auto!important;border-left:2px solid var(--field-accent,#d1ad5a)!important;box-shadow:inset 0 1px #c2b98030,0 3px 14px #0004}
+#gameTop .objective small{color:var(--field-muted,#b2ad8b);font-family:'IBM Plex Mono',monospace}
+#gameTop .objective strong{color:var(--field-paper,#e5d7a6);text-shadow:0 1px 2px #0008}
+#arena #career{color:var(--field-muted,#b2ad8b);text-shadow:0 1px 3px #000,0 0 5px #000}
+#arena #radio{background:var(--field-grain,none),linear-gradient(110deg,#1d2519ee,#121a12d9)!important;background-size:150px 150px,auto!important;border-left-color:var(--field-accent,#d1ad5a);color:var(--field-paper,#e5d7a6)!important;box-shadow:inset 0 1px #b8b58126}
+#arena #dodgeStatus{color:var(--field-paper,#e5d7a6);background:var(--field-scuffs,none),var(--field-grain,none),#1c2418e8;background-size:100% 100%,150px 150px,auto;border-bottom-color:#9eaa6a;font-family:'IBM Plex Mono',monospace;box-shadow:inset 0 1px #d5c78c18}
+#arena #lootToast:not(:empty){color:#dfd79f;background:var(--field-grain,none),#202619e8;background-size:150px 150px,auto;box-shadow:0 0 0 6px #202619e8,0 1px 0 7px #a4a26a40;text-shadow:0 1px #000;line-height:1.5}
+
+#arena #bossHud{background:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(180deg,#2b241bf2,#181b12ec);background-size:100% 100%,150px 150px,auto;box-shadow:inset 0 1px #b58d5259,0 4px 14px #0005;color:var(--field-paper,#e5d7a6)}
+#arena #bossName{font-family:'IBM Plex Mono',monospace;font-weight:500;color:#e9c68d}
+#arena #bossHud>div{background:#080d09;box-shadow:0 1px #e3d59920}
+#arena #bossHp{background:repeating-linear-gradient(90deg,transparent 0 26px,#28180e88 26px 28px),linear-gradient(180deg,#c78359,#a45e40)}
+
+#arena #fieldTransmission{color:var(--field-paper,#e5d7a6);background:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(115deg,#282e20fa,#151d14f5);background-size:100% 100%,150px 150px,auto;border-color:var(--field-line,#a4a26a55);border-left-color:var(--field-accent,#d1ad5a);box-shadow:inset 0 1px #ddd09c1a,inset 0 -2px #050a06aa,0 8px 24px #0005}
+#arena #fieldTransmission h3{color:var(--field-paper,#e5d7a6);text-shadow:0 1px 2px #0009}
+#arena #fieldTransmission p{color:#d0ccb0}
+#arena #fieldTransmission .transmissionMeta{color:var(--field-accent,#d1ad5a);font-family:'IBM Plex Mono',monospace}
+#arena #fieldTransmission .transmissionMeta small{color:var(--field-muted,#b2ad8b)}
+#arena #fieldTransmission .transmissionMeta button{color:var(--field-paper,#e5d7a6)}
+#arena #fieldTransmission .transmissionMeta button:hover{background:#c3b77d12;color:#f7edc9}
+#arena #fieldTransmission .transmissionMeta button:focus-visible{outline:1px solid var(--field-paper,#e5d7a6);outline-offset:-3px}
+#arena #fieldTransmission .transmissionHint{color:var(--field-muted,#b2ad8b)}
+#arena #fieldTransmission .transmissionSignal i{background:var(--field-accent,#d1ad5a);opacity:.55;animation:none}
+#arena #fieldTransmission .transmissionSignal i:nth-child(3n){opacity:.22}
+#arena #entryControls{border-top-color:var(--field-line,#a4a26a55);color:var(--field-muted,#b2ad8b)}
+#arena #entryControls kbd,#arena #entryControls b{color:var(--field-paper,#e5d7a6);font-family:'IBM Plex Mono',monospace}
+#arena #cinematic.fieldLift #introCaption{background:var(--field-grain,none),#182016eb;background-size:150px 150px,auto;border-left-color:var(--field-accent,#d1ad5a);color:var(--field-paper,#e5d7a6)}
+
+#arena #touchControls .touchPad{background:var(--field-grain,none),radial-gradient(circle at center,#39412a55,#141d1480);background-size:150px 150px,auto;border-color:#c7c28d66;box-shadow:inset 0 0 0 5px #0a100d33,inset 0 1px #e5d7a622}
+#arena #touchControls .touchPad span{color:var(--field-paper,#e5d7a6);text-shadow:0 1px 2px #000}
+#arena #touchControls .touchPad i{background:var(--field-grain,none),#b0b38155;background-size:150px 150px,auto;border-color:#d7ce9d88;box-shadow:inset 0 1px #f6eac52b,0 2px 5px #0005}
+#arena #touchControls .touchPad:active{border-color:#e4d6a1aa;background-color:#39432b44}
+#arena #touchControls .touchActions button{background:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(180deg,#303824ed,#1a2317ed);background-size:100% 100%,150px 150px,auto;border-color:var(--field-line,#a4a26a55);color:var(--field-paper,#e5d7a6);box-shadow:inset 0 1px #e5d7a61f,inset 0 -2px #080e0a80;font-family:'IBM Plex Mono',monospace;font-weight:500}
+#arena #touchControls .touchActions .touchINTERACT{color:#f0e3b6;border-color:#cfb56e;background-image:var(--field-scuffs,none),var(--field-grain,none),linear-gradient(180deg,#50563aed,#343d25ed)}
+#arena #touchControls .touchActions button:active,#arena #touchControls .touchActions button[aria-pressed=true]{color:#f6ecc7;border-color:#d1c488;background-image:var(--field-grain,none),linear-gradient(180deg,#5c6537f2,#394628f2);background-size:150px 150px,auto;box-shadow:inset 0 2px 5px #0008}
+main>footer#controls{color:var(--field-muted,#b2ad8b);text-shadow:0 1px 2px #000,0 0 4px #000}
+main>footer#controls b{color:var(--field-paper,#e5d7a6)}
+@media(max-width:700px){#arena #combatHud>div::before{inset:-5px -6px;background-image:var(--field-grain,none),linear-gradient(135deg,#252d20ee,#11190fe8);background-size:150px 150px,auto}#arena #lootToast:not(:empty){box-shadow:0 0 0 4px #202619e8,0 1px 0 5px #a4a26a40}}
