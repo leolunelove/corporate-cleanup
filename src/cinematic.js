@@ -1,6 +1,6 @@
-import{mallOpeningFrame,stageMallOpening,mallOpeningCues}from'./mall-opening.js?v=f54029b71d60';
-import{liftFrame}from'./lift.js?v=f54029b71d60';
-import{missions,introMission}from'./missions.js?v=f54029b71d60';
+import{mallOpeningFrame,stageMallOpening,mallOpeningCues}from'./mall-opening.js?v=8de9f4d890c9';
+import{liftFrame}from'./lift.js?v=8de9f4d890c9';
+import{missions,introMission}from'./missions.js?v=8de9f4d890c9';
 export const cinematicDuration=32;
 export const cinematicScripts={
  'mall-rescue':['MERIDIAN MALL / SECURITY ROOM','Thank you. I thought nobody was coming back.','There is a gun store across the concourse. I can help you reach it.','Stay close. The service lift is our way up.'],
@@ -33,7 +33,7 @@ export function cinematicFrame(time,reduced=false,id='opening',anchor=null){if(i
 export function cinematicActors(g,frame){if(frame.mallOpening)g=stageMallOpening(g,frame);if(frame.liftInterior)g={...g,mission:{...g.mission,id:'mall-cabin',liftInterior:true},cover:[],enemies:[],companion:null,mallProps:[],brokenProps:[],bloodStains:[],surfaceMarks:[]};const start=g.mission.mall||g.mission.intro&&frame.storyBeat!=='intake'?g.p:g.mission.start;let from={x:start.x,y:start.y};for(const [dx,dy]of [[-60,0],[60,0],[0,-60],[0,60]]){const point={x:start.x+dx,y:start.y+dy};let clear=true;for(let k=0;k<=12;k++){const x=start.x+dx*k/12,y=start.y+dy*k/12;if(x<16||x>1184||y<16||y>744||g.cover.some(o=>x+16>o.x&&x-16<o.x+o.w&&y+16>o.y&&y-16<o.y+o.h)){clear=false;break;}}if(clear){from=point;break;}}
  if(g.mission.intro||g.mission.mall)from={x:start.x,y:start.y};
  const u=frame.heroProgress,p={...g.p,x:from.x+(start.x-from.x)*u,y:from.y+(start.y-from.y)*u,vx:(start.x-from.x)*frame.heroSpeed,vy:(start.y-from.y)*frame.heroSpeed,face:(1-frame.ready)*Math.atan2(start.y-from.y,start.x-from.x)+frame.ready*(g.p.face||0)};
- if(frame.heroPosition)Object.assign(p,frame.heroPosition);if(g.mission.id==='quarters')p.face=1.05;
+ if(frame.heroPosition)Object.assign(p,frame.heroPosition);if(g.mission.id==='quarters')p.face=.52;
  let enemies=frame.showThreat?[{type:g.mission.id==='sabotage'?'brute':'boss',x:g.mission.boss.x,y:g.mission.boss.y,r:32,hp:1400,maxHp:1400,seed:.5,vx:0,vy:0,face:Math.PI,phaseAnim:frame.reduced?0:Math.max(0,1.1-Math.abs(frame.time-19)*.55)}]:frame.shot===3?g.enemies.map(e=>({...e,vx:0,vy:0,face:e.face??Math.atan2(g.p.y-e.y,g.p.x-e.x)})):[];
  if(frame.showThreat){const spot={x:g.mission.boss.x-75,y:g.mission.boss.y},clear=spot.x>18&&spot.y>18&&!g.cover.some(o=>spot.x+18>o.x&&spot.x-18<o.x+o.w&&spot.y+18>o.y&&spot.y-18<o.y+o.h);if(clear)enemies.push({type:g.mission.id==='sabotage'?'spitter':g.mission.id==='purge'?'runner':'walker',...spot,r:18,hp:100,maxHp:100,seed:.9,vx:0,vy:0,face:.4,spitAnim:frame.reduced?0:g.mission.id==='sabotage'?.2+Math.sin(frame.time)*.1:0});}
  if(g.mission.intro||g.mission.mall)enemies=g.enemies.filter(e=>e.hp>0).map(e=>({...e,vx:0,vy:0}));if(frame.storyBeat==='mall-transform'&&frame.time>=16)enemies=[{type:'boss',x:720,y:350,r:32,hp:1400,maxHp:1400,seed:.8,face:Math.PI,vx:0,vy:0,phaseAnim:Math.max(0,1-(frame.time-16)/8)}];

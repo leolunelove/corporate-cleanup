@@ -293,3 +293,195 @@ body:has(#arena:not(.menuOpen)) header .tag{margin-left:auto!important}
  #lootToast{top:254px}
 }
 @media(max-width:700px) and (orientation:landscape){#bossHud{top:154px;width:min(330px,65vw)}#lootToast{top:208px}}
+/* Release presentation: one quiet field interface over the live scene. */
+:root{--field-paper:#e4e8e4;--field-muted:#a5b5bd;--field-dim:#7f939f;--field-accent:#d49b64;--field-heading:'Barlow Condensed',Impact,'Arial Narrow',sans-serif;--field-copy:Arial,sans-serif}
+.menuShell{font-family:var(--field-copy);font-kerning:normal}
+.menuShell #title,.menuShell h3,.menuShell #start,#quarters .lobbySlot>strong,#quarters .equipmentItem>strong,#quarters .resultReward>strong,.lobbyNext strong{font-family:var(--field-heading)!important;font-weight:700!important}
+.menuShell #title{letter-spacing:1.1px!important;color:var(--field-paper)!important;text-shadow:0 2px 18px #0005}
+.menuShell #menuEyebrow{color:var(--field-muted)!important;letter-spacing:1.4px;font-size:9px}
+.menuShell p{color:var(--field-muted);line-height:1.55}
+.menuShell #fieldNavigation{border-bottom-color:#7c9bad26;gap:32px}
+.menuShell #fieldNavigation button{font-size:11px;letter-spacing:1.5px;min-height:40px;color:#94a6b0;transition:color .16s,border-color .16s}
+.menuShell #fieldNavigation button[aria-current=page]{border-bottom-color:var(--field-accent);color:var(--field-paper)}
+.menuShell #menuBack,.menuShell #lobbySettings{letter-spacing:1.1px;color:#a7b5bd;font-size:10px}
+.menuShell #menuBack:hover,.menuShell #lobbySettings:hover{background:none;color:#edf1ed}
+.menuShell #start{background:var(--field-accent)!important;border-color:#dfb185!important;color:#111b22!important;font-size:24px!important;font-weight:700!important;letter-spacing:1.1px!important;line-height:1!important;transition:background .16s,color .16s,box-shadow .16s}
+.menuShell #start:hover{background:#e1b184!important;border-color:#ecc8a5!important}
+.menuShell #start:active{background:#c28b56!important}
+.menuShell #start:after{font:22px/1 Arial,sans-serif;opacity:.85;transition:transform .16s}
+.menuShell #start:hover:after{transform:translateX(3px)}
+#overlay.menuShell[data-screen=gear] #start{font:600 12px/1 Arial,sans-serif!important;letter-spacing:1.3px!important;background:#14212a!important;border-color:#647c8a55!important;color:#c9d7dc!important}
+#overlay.menuShell[data-screen=gear] #start:hover{background:#20313c!important;color:#edf1ed!important}
+#overlay.menuShell[data-screen=home] #title{font-size:clamp(52px,9vh,88px)!important;line-height:.93!important;letter-spacing:2.5px!important;font-weight:800!important;text-shadow:0 4px 28px #0008}
+#overlay.menuShell[data-screen=home] #quarters>p{font:10px/1.6 Arial,sans-serif!important;letter-spacing:1.8px!important;color:#bdc6c6!important}
+#overlay.menuShell:is([data-screen=hub],[data-screen=gear]):not(.hidden){background:linear-gradient(90deg,#080f16f5 0%,#080f16e8 29%,#080f1655 56%,#080f1608 80%)!important}
+.menuShell[data-screen=hub] #title{font-weight:600!important;letter-spacing:1.5px!important}
+#quarters .lobbyIdentity{color:#b8c5ca;font:11px/1.3 Arial,sans-serif;letter-spacing:1px}
+#quarters .lobbyIdentity strong{color:#c5b296;font-weight:400}
+.lobbySlots>small{font:9px/1.4 Arial,sans-serif!important;letter-spacing:1.5px!important;color:#94a8b3!important;margin-bottom:3px}
+#quarters .lobbySlot,#quarters .equipmentItem{background:linear-gradient(90deg,#26353f99,#1c293344 88%,#1c293314)!important;transition:background .16s,border-color .16s,box-shadow .16s}
+#quarters .lobbySlot:hover,#quarters .equipmentItem:hover{background:linear-gradient(90deg,#3c4d58b3,#28394466)!important}
+#quarters .lobbySlot:focus-visible,#quarters .equipmentItem:focus-visible{outline:1px solid #e2bb93;outline-offset:-1px;box-shadow:inset 2px 0 #e2bb93}
+#quarters .lobbySlot>strong{font-size:19px;letter-spacing:.65px;color:#e5ebe8;line-height:1}
+#quarters .lobbySlot>small{color:#a5b7c0!important;letter-spacing:1.05px!important}
+#quarters .lobbySlot>span{font:9px/1.3 Arial,sans-serif;color:#9eafb9;letter-spacing:.35px}
+.lobbySlot .slotArt{border:0;background:none!important;height:46px}
+#quarters .lobbySlot i,#quarters .equipmentItem i{color:#caa276;transition:transform .16s,color .16s;font-size:20px}
+#quarters .lobbySlot:hover i,#quarters .equipmentItem:hover i{transform:translateX(3px);color:#f0d0ab}
+.gearArt{background:none}.gearArt svg{filter:brightness(1.22) drop-shadow(0 3px 3px #0005)}
+.gearNew{font:600 8px/1.2 Arial,sans-serif;letter-spacing:.75px;color:#dfc29c;top:9px;right:30px}
+#quarters .lobbyNext{border-top-color:#7a919b33;padding-top:11px}
+.lobbyNext>small{font:9px/1.4 Arial,sans-serif!important;letter-spacing:1.2px!important;color:#b2babc!important}
+.lobbyNext strong{font-size:23px;letter-spacing:.5px;color:#e0e5e2;line-height:1.1}
+#quarters .lobbyNext p{font:12px/1.45 Arial,sans-serif!important;color:#a3b4bd;max-width:390px}
+#quarters .lobbySave{font:9px/1.4 Arial,sans-serif!important;letter-spacing:.45px;color:#7e939f!important}
+.equipmentTabs{border-bottom-color:#78909b33;gap:26px}
+#quarters .equipmentTabs button{letter-spacing:1.2px!important;font-weight:600!important;color:#91a6b2}
+#quarters .equipmentTabs button[aria-pressed=true]{border-bottom-color:var(--field-accent);color:#e8ddcc}
+#quarters .equipmentHeading>small{font:9px/1.3 Arial,sans-serif!important;letter-spacing:1px!important;color:#9eafb7}
+#quarters .equipmentHeading select{background:#0b151ccc;border-color:#5f768044;font:10px/1.2 Arial,sans-serif;color:#c2d0d6;padding:6px 8px!important}
+#quarters .equipmentItem>strong{font-size:17px;letter-spacing:.45px;color:#e1e8e6}
+#quarters .equipmentItem>small{color:#a4b7c1;font:8px/1.3 Arial,sans-serif!important;letter-spacing:.7px}
+#quarters .equipmentItem>span{font:8px/1.3 Arial,sans-serif!important;letter-spacing:.6px;color:#b4c4cd}
+.equipmentItem .itemArt{background:none}
+#quarters .equipmentPages{gap:18px;margin:10px 0}
+#quarters .equipmentPages>small{font:10px/1 Arial,sans-serif!important;letter-spacing:1px;color:#a3b5be}
+#quarters .equipmentPages button{color:#bfccd0;font-weight:400!important}
+#quarters .equipmentPages button:disabled{opacity:.22}
+#quarters .equipmentFooter p{font:11px/1.45 Arial,sans-serif!important;color:#93a8b3;max-width:100%}
+.menuShell .simpleEquipment .contractorInspect{background:linear-gradient(135deg,#172630d4,#0d1922b3)!important;padding:16px!important}
+.menuShell .simpleEquipment .contractorInspect h3{font-size:32px!important;letter-spacing:.6px!important;line-height:1.02!important;color:#e5eae6}
+.menuShell .simpleEquipment .contractorInspect>small{font:9px/1.4 Arial,sans-serif!important;letter-spacing:1.2px}
+.menuShell .simpleEquipment .contractorInspect>p{font:12px/1.5 Arial,sans-serif!important;color:#abbcc5!important}
+.inspectArt{border-bottom:0;height:88px;margin:0 0 10px 12px;width:40%}
+.menuShell .simpleEquipment .contractorStats{font:11px/1.3 Arial,sans-serif;gap:5px!important;margin:16px 0!important}
+.menuShell .simpleEquipment .contractorStats dt,.menuShell .simpleEquipment .contractorStats dd{border-bottom-color:#71899433;padding-bottom:8px}
+.menuShell .simpleEquipment .contractorStats dt{color:#9eb2bd}.menuShell .simpleEquipment .contractorStats dd{color:#e1e8e5;font-variant-numeric:tabular-nums}
+.menuShell .simpleEquipment .contractorActions .contractorPrimary{background:#bfa17e!important;color:#10202a!important;font:600 11px/1 Arial,sans-serif!important;letter-spacing:1px;border:0!important}
+.menuShell .simpleEquipment .contractorActions .contractorPrimary:disabled{background:#22343d!important;color:#9eb5be!important;opacity:.8}
+.menuShell.resultsFlow .resultLocation{color:#9fb2bd!important;font-size:12px!important;letter-spacing:.3px}
+.menuShell.resultsFlow .resultEarnings small{font:9px/1.3 Arial,sans-serif!important;letter-spacing:1.4px;color:#9dabb2!important}
+.menuShell.resultsFlow .resultEarnings strong{font-family:var(--field-heading)!important;font-size:27px!important;font-weight:600!important;letter-spacing:.5px;color:#d7b28a}
+.menuShell.resultsFlow .resultProgress{font:11px/1.4 Arial,sans-serif;color:#aebfc6}
+.menuShell.resultsFlow .careerMeter{height:3px;background:#65798133;margin:9px 0 12px}.menuShell.resultsFlow .careerMeter i{background:#c5a17b}
+.menuShell.resultsFlow .resultGearHeading{font:600 22px/1.05 var(--field-heading)!important;letter-spacing:1px!important}
+#quarters .resultReward{background:linear-gradient(135deg,#1c2b35e6,#101c26cc)!important;border:0!important;border-top:2px solid var(--rarity)!important;box-shadow:none!important}
+#quarters .resultReward>strong{font-size:23px!important;line-height:1.05!important;letter-spacing:.5px!important;color:#e5eae7}
+#quarters .resultReward>small{font:9px/1.3 Arial,sans-serif!important;letter-spacing:1.3px!important}
+#quarters .resultReward>p{font:11px/1.45 Arial,sans-serif!important;color:#9fb2bd!important}
+#quarters .rewardArt{border-bottom:0!important;background:radial-gradient(ellipse at 50% 85%,#667e7d1a,transparent 75%)!important}
+#quarters .rewardBenefit{font:11px/1.4 Arial,sans-serif!important;color:#c3d2d8}
+#quarters .resultReward .rewardEquip{font:600 11px/1 Arial,sans-serif!important;letter-spacing:.5px;border-color:#89a0ac55!important;background:#24374088!important;transition:background .16s,border-color .16s}
+#quarters .resultReward .rewardEquip:hover{background:#38505caa!important;border-color:#a3bac566!important}
+#quarters .resultReward .rewardEquip:disabled{color:#b6c9bd!important;border-color:#6b92784d!important;background:#273c3180!important;opacity:1}
+#quarters .resultNote{color:#a6b8c1!important}
+.menuShell .settingsTabs{gap:28px;border-bottom-color:#72879133}
+.menuShell .settingsTabs button{font:600 11px/1 Arial,sans-serif;letter-spacing:1.2px;color:#94a8b4}
+.menuShell .settingsTabs button[aria-pressed=true]{color:#e2d3bf;border-bottom-color:var(--field-accent)}
+.menuShell .settingsGrid label{background:#18283366;letter-spacing:.15px;color:#bfccd2}
+.menuShell input[type=range],.menuShell input[type=checkbox]{accent-color:var(--field-accent)}
+#quarters.characterCreate input[type=text]{border-color:#78939f66;background:#111e2799;color:#e7ece7;border-radius:0}
+#quarters.characterCreate input[type=text]:focus-visible{outline:1px solid #dab58d;outline-offset:1px;border-color:#dab58d}
+#quarters.characterCreate .menuActions button{min-width:82px;background:#16242e88;border-color:#58707d44;font:11px Arial,sans-serif;letter-spacing:.7px}
+#quarters.characterCreate .menuActions button[aria-pressed=true]{color:#ecdfcc;background:#6b5c432e;border-color:#c1a17e}
+/* Read radio copy at a glance; monospace is reserved for the channel and controls. */
+#fieldTransmission{padding:17px 20px 16px 28px;border-color:#76948a33;background:linear-gradient(110deg,#081719f2,#071318df);box-shadow:0 10px 26px #0005}
+#fieldTransmission h3{font:600 23px/1.05 var(--field-heading);letter-spacing:1.4px;margin:9px 0;color:#e0e7dc}
+#fieldTransmission p{font:14px/1.55 Arial,sans-serif;letter-spacing:.15px;color:#bdceca;margin-bottom:14px}
+.transmissionMeta{font-size:10px;letter-spacing:.14em}.transmissionMeta small{font-size:9px;color:#839f96}
+.transmissionHint{font-size:8px;letter-spacing:1px;color:#7e9b90}
+.transmissionSignal i{opacity:.35;width:3px;height:3px;animation-duration:1.8s}
+#entryControls{border-top-color:#748b7d33}
+#entryControls>div{font:11px/1.3 Arial,sans-serif;gap:9px 12px}
+#entryControls kbd,#entryControls b{font-size:9px;letter-spacing:.45px;color:#dcc7a5}
+@media(prefers-reduced-motion:no-preference){
+ .menuShell.menuChange #quarters,.menuShell.menuChange #title{animation:fieldReveal .24s cubic-bezier(.2,.7,.2,1) both}
+ .menuShell.menuChange #start{animation:fieldActionIn .2s ease-out both}
+ @keyframes fieldReveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+ @keyframes fieldActionIn{from{opacity:.45}to{opacity:1}}
+ @keyframes gearReveal{from{opacity:.35}to{opacity:1}}
+}
+@media(prefers-reduced-motion:reduce){.menuShell #start,.menuShell #start:after,#quarters .lobbySlot i,#quarters .equipmentItem i{transition:none!important}.menuShell #start:hover:after,#quarters .lobbySlot:hover i,#quarters .equipmentItem:hover i{transform:none}.menuShell.menuChange #start{animation:none!important}}
+@media(max-width:700px){
+ #overlay.menuShell:is([data-screen=hub],[data-screen=gear]):not(.hidden){background:linear-gradient(0deg,#080f16 0%,#080f16ee 45%,#080f1608 77%)!important}
+ #overlay.menuShell[data-screen=home] #title{font-size:clamp(50px,9vh,70px)!important;letter-spacing:2px!important}
+ .menuShell #start{font-size:22px!important}
+ #quarters .lobbySlot>strong{font-size:18px;letter-spacing:.4px}.lobbySlot .slotArt{height:42px}
+ .lobbyNext strong{font-size:22px}
+ #quarters .lobbyNext p{font-size:11px!important;line-height:1.4!important}
+ #quarters .lobbySave{font-size:8px!important;letter-spacing:.3px}
+ #quarters .equipmentItem>strong{font-size:16px;letter-spacing:.3px}
+ #quarters .equipmentItem>span{font-size:7px!important}
+ #quarters .equipmentFooter p{font-size:10px!important}
+ .menuShell .simpleEquipment .contractorInspect{padding:12px!important}
+ .menuShell .simpleEquipment .contractorInspect h3{font-size:28px!important}
+ .menuShell .simpleEquipment .contractorInspect>p{font-size:11px!important}
+ .menuShell .simpleEquipment .contractorStats{margin:10px 0!important;gap:3px!important;font-size:10px}
+ .menuShell .simpleEquipment .contractorStats dt,.menuShell .simpleEquipment .contractorStats dd{padding-bottom:6px}
+ .inspectArt{height:75px;margin-left:8px}
+ #quarters .resultReward>strong{font-size:19px!important}
+ #quarters .resultReward>p{font-size:10px!important}
+ #quarters .rewardBenefit{font-size:10px!important}
+ #quarters .resultReward .rewardEquip{font-size:10px!important;letter-spacing:0}
+ #fieldTransmission{padding:13px 14px 12px 26px}
+ #fieldTransmission h3{font-size:21px;margin:7px 0}
+ #fieldTransmission p{font-size:13px;line-height:1.45;margin-bottom:11px}
+ #entryControls>div{gap:7px 10px;font-size:11px}
+}
+@media(max-height:620px) and (min-width:701px){
+ .menuShell #start{font-size:22px!important}.lobbyNext strong{font-size:21px}
+ #quarters .lobbyNext p{font-size:10px!important}
+ .menuShell .simpleEquipment .contractorInspect h3{font-size:27px!important}
+ .menuShell .simpleEquipment .contractorStats{margin:9px 0!important}
+ .menuShell .simpleEquipment .contractorStats dt,.menuShell .simpleEquipment .contractorStats dd{padding-bottom:5px}
+}
+@media(max-height:560px){#overlay.menuShell[data-screen=home] #title{font-size:42px!important}#fieldTransmission h3{font-size:19px;margin:5px 0}#fieldTransmission p{font-size:12px;line-height:1.4;margin-bottom:8px}#entryControls>div{gap:5px 10px}}
+/* The reward handoff uses the same left edge and action position as the lobby. */
+#overlay.menuShell.resultsFlow:has(.resultRewards):not(.hidden){padding:86px 5vw 28px!important;background:linear-gradient(90deg,#080f16f5,#080f16e8 43%,#080f1655 76%,#080f1622)!important}
+#overlay.menuShell.resultsFlow:has(.resultRewards) #quarters.menuContent{width:min(880px,72vw)!important;max-width:880px!important;margin:0!important;padding-right:0!important}
+#overlay.menuShell.resultsFlow:has(.resultRewards) .resultRewards{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+#overlay.menuShell.resultsFlow:has(.resultRewards) #start{align-self:flex-start!important;width:min(380px,72vw)!important;margin:0!important}
+#overlay.menuShell.resultsFlow:has(.resultRewards) #resultsActions{align-self:flex-start!important;justify-content:flex-start!important}
+#overlay.menuShell.resultsFlow:has(.resultRewards) #resultsActions button{padding:6px 0!important;font-size:11px!important;letter-spacing:.3px;color:#a2b6c0!important}
+#overlay.menuShell.resultsFlow:has(.resultRewards) #menuBack{right:5vw}
+@media(max-width:700px){
+ #overlay.menuShell.resultsFlow:has(.resultRewards):not(.hidden){padding:86px 20px 20px!important;background:linear-gradient(0deg,#080f16fa,#080f16ed 58%,#080f1677)!important}
+ #overlay.menuShell.resultsFlow:has(.resultRewards) #quarters.menuContent{width:100%!important}
+ #overlay.menuShell.resultsFlow:has(.resultRewards) .resultRewards{grid-template-columns:1fr!important;gap:7px!important}
+ #overlay.menuShell.resultsFlow:has(.resultRewards) #start{width:100%!important}
+ #overlay.menuShell.resultsFlow:has(.resultRewards) #menuBack{right:20px}
+}
+@media(max-height:560px){
+ #overlay.menuShell.resultsFlow:has(.resultRewards):not(.hidden){padding-top:62px!important;padding-bottom:12px!important;gap:5px!important}
+ #overlay.menuShell.resultsFlow:has(.resultRewards) #menuBack{top:46px!important}
+ #overlay.menuShell.resultsFlow:has(.resultRewards) .resultReward{padding:9px!important}
+}
+/* Supporting screens keep the same spatial route back to the game. */
+#overlay.menuShell:is([data-screen=settings],[data-screen=character]):not(.hidden){padding:124px 5vw 28px!important;background:linear-gradient(90deg,#080f16f5,#080f16e8 40%,#080f1655 68%,#080f161a)!important}
+#overlay.menuShell:is([data-screen=settings],[data-screen=character]) #fieldNavigation{left:5vw}
+#overlay.menuShell:is([data-screen=settings],[data-screen=character]) #menuBack{right:5vw}
+#overlay.menuShell[data-screen=settings] #quarters.menuContent{width:min(820px,72vw)!important;max-width:820px!important;padding-right:0!important}
+#overlay.menuShell[data-screen=settings] #start{align-self:flex-start!important;width:min(340px,72vw)!important}
+#overlay.menuShell[data-screen=character] #quarters.menuContent{width:min(440px,46vw)!important;max-width:440px!important;padding-right:0!important}
+#overlay.menuShell[data-screen=character] #start{align-self:flex-start!important;width:min(440px,46vw)!important}
+#overlay.menuShell[data-screen=character] #quarters>p{max-width:420px;text-align:left;margin-left:0!important;margin-right:0!important}
+#overlay.menuShell[data-screen=pause]:not(.hidden){padding:clamp(104px,16vh,160px) 5vw 28px!important;gap:10px!important;background:linear-gradient(90deg,#080f16f2,#080f16d9 38%,#080f164d 72%,#080f1633)!important}
+#overlay.menuShell[data-screen=pause] #quarters.menuContent{width:min(440px,46vw)!important;max-width:440px!important;flex:0 1 auto!important;height:auto!important;max-height:calc(100dvh - 290px)!important;padding:4px 0 14px!important}
+#overlay.menuShell[data-screen=pause] #quarters>button{background:none;border:0;border-bottom:1px solid #78909a33;padding:12px 0!important;min-width:130px;text-align:left;margin-right:20px;font:600 11px/1 Arial,sans-serif;letter-spacing:1px;color:#afc1c9}
+#overlay.menuShell[data-screen=pause] #quarters>button:hover{color:#f0dec6;border-bottom-color:#c49c73}
+#overlay.menuShell[data-screen=pause] #quarters>p{font:13px/1.55 Arial,sans-serif!important;color:#acbdc5;margin:18px 0 0!important;max-width:400px;text-align:left}
+#overlay.menuShell[data-screen=pause] #start{align-self:flex-start!important;width:min(340px,46vw)!important;margin-top:6px!important}
+@media(max-width:700px){
+ #overlay.menuShell:is([data-screen=settings],[data-screen=character]):not(.hidden){padding:125px 20px 20px!important;background:linear-gradient(0deg,#080f16fa,#080f16ed 54%,#080f1688)!important}
+ #overlay.menuShell:is([data-screen=settings],[data-screen=character]) #fieldNavigation{left:20px}
+ #overlay.menuShell:is([data-screen=settings],[data-screen=character]) #menuBack{right:20px}
+ #overlay.menuShell:is([data-screen=settings],[data-screen=character]) #quarters.menuContent,#overlay.menuShell:is([data-screen=settings],[data-screen=character]) #start{width:100%!important;max-width:none!important}
+ #overlay.menuShell[data-screen=pause]:not(.hidden){padding:116px 20px 20px!important}
+ #overlay.menuShell[data-screen=pause] #quarters.menuContent{width:100%!important;max-height:calc(100dvh - 300px)!important}
+ #overlay.menuShell[data-screen=pause] #start{width:100%!important}
+}
+@media(max-height:560px){
+ #overlay.menuShell:is([data-screen=settings],[data-screen=character],[data-screen=pause]):not(.hidden){padding-top:85px!important;padding-bottom:12px!important;gap:5px!important}
+ #overlay.menuShell[data-screen=pause] #quarters.menuContent{max-height:calc(100dvh - 218px)!important;padding-bottom:7px!important}
+ #overlay.menuShell[data-screen=pause] #quarters>p{margin-top:10px!important;font-size:12px!important}
+}
