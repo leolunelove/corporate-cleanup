@@ -589,3 +589,18 @@ body .bootFallback{color:#d0c49b;background:var(--field-grain),#1c2518;border-co
 #overlay.menuShell.resultsFlow #quarters>h3{color:var(--field-paper)!important}
 #quarters .resultReward .rewardRarity{color:var(--rarity)!important}
 #overlay.menuShell.resultsFlow:not(:has(.resultRewards)) #resultsActions button{color:#b7ba8d!important}
+
+/* Preserve useful information before decorative space on narrow displays. */
+#arena #combatHud.criticalHealth>div:first-child{border-left:3px solid #e59161}
+#arena #combatHud.criticalHealth #hp{color:#ffc08b!important}
+#arena #combatHud.criticalHealth .meter i{background:#dc875a}
+#arena #combatHud>div:last-child strong{font-size:20px!important}
+@media(max-width:700px){
+ #overlay.menuShell[data-screen=gear]:not(.hidden){grid-template-rows:auto auto minmax(0,1fr) auto!important}
+ #overlay.menuShell[data-screen=gear] #quarters{align-self:start!important;margin-top:0!important;padding-top:90px!important;justify-content:flex-start!important;max-height:none!important}
+ #quarters .equipmentItem>span{font-size:10px!important}
+ #quarters .equipmentItem>small{font-size:10px!important}
+ #quarters .equipmentItem{min-height:58px!important;height:58px!important;grid-template-columns:1fr auto}
+ #arena #combatHud #reload{font-size:10px!important}
+ #arena #combatHud>div:last-child strong{font-size:16px!important}
+}
